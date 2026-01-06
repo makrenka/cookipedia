@@ -9,7 +9,8 @@
         "dev": "pnpm -r --parallel dev",
         "types": "concurrently \"pnpm b types\" \"pnpm w types\"",
         "lint": "concurrently \"pnpm b lint\" \"pnpm w lint\"",
-        "prettify": "pnpm -r --parallel prettify"
+        "prettify": "pnpm -r --parallel prettify",
+        "prepare": "husky install"
     },
     "devDependencies": {
         "@eslint/eslintrc": "^3.3.3",
@@ -18,6 +19,8 @@
         "eslint-config-prettier": "^10.1.8",
         "eslint-config-react-app": "^7.0.1",
         "eslint-config-standard-with-typescript": "^43.0.1",
+        "husky": "^9.1.7",
+        "lint-staged": "^16.2.7",
         "typescript-eslint": "^8.51.0"
     }
 }
