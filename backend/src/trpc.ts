@@ -2,12 +2,12 @@ import { initTRPC } from "@trpc/server";
 
 const recipies = [
   {
-    name: "Recipe 2",
+    name: "Recipe 1",
     description: "Recipe 2 description...",
     nick: "cool-recipe1",
   },
   {
-    name: "Recipe 1",
+    name: "Recipe 2",
     description: "Recipe 1 description...",
     nick: "cool-recipe2",
   },
@@ -27,8 +27,6 @@ const recipies = [
     nick: "cool-recipe5",
   },
 ];
-
-const x: number = "1"
 
 const trpc = initTRPC.create();
 

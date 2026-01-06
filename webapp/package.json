@@ -16,7 +16,8 @@
     "@trpc/client": "^11.8.1",
     "@trpc/react-query": "^11.8.1",
     "react": "^19.2.0",
-    "react-dom": "^19.2.0"
+    "react-dom": "^19.2.3",
+    "react-router-dom": "^7.11.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.2",
