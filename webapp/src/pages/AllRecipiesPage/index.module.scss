@@ -1,0 +1,29 @@
+@import "../../styles/mixins";
+@import "../../styles/vars";
+
+.title {
+  @include h1;
+}
+
+.recipies {
+  .recipe {
+    padding: 20px;
+    border: 1px solid $black;
+    border-radius: 10px;
+    & + .recipe {
+      margin-top: 20px;
+    }
+
+    .recipeName {
+      @include h2;
+
+      .recipeLink {
+        @include link;
+      }
+    }
+
+    .recipeDescription {
+      font-size: 18px;
+    }
+  }
+}

@@ -7,17 +7,21 @@ import {
   getViewRecipeRoute,
   viewRecipeRouteParams,
 } from "./lib/routes";
+import { Layout } from "./components/Layout";
+import "./styles/global.scss";
 
 export const App = () => {
   return (
     <TrpcProvider>
       <BrowserRouter>
         <Routes>
-          <Route path={getAllRecipiesRoute()} element={<AllRecipiesPage />} />
-          <Route
-            path={getViewRecipeRoute(viewRecipeRouteParams)}
-            element={<ViewRecipePage />}
-          />
+          <Route element={<Layout />}>
+            <Route path={getAllRecipiesRoute()} element={<AllRecipiesPage />} />
+            <Route
+              path={getViewRecipeRoute(viewRecipeRouteParams)}
+              element={<ViewRecipePage />}
+            />
+          </Route>
         </Routes>
       </BrowserRouter>
     </TrpcProvider>

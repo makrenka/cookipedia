@@ -1,6 +1,7 @@
 import { useParams } from "react-router-dom";
 import type { ViewRecipeRouteParams } from "../../lib/routes";
 import { trpc } from "../../lib/trpc";
+import css from "./index.module.scss";
 
 export const ViewRecipePage = () => {
   const { recipeNick } = useParams() as ViewRecipeRouteParams;
@@ -23,9 +24,12 @@ export const ViewRecipePage = () => {
 
   return (
     <div>
-      <h1>{data.recipe.name}</h1>
-      <p>{data.recipe.description}</p>
-      <div dangerouslySetInnerHTML={{ __html: data.recipe.text }} />
+      <h1 className={css.title}>{data.recipe.name}</h1>
+      <p className={css.description}>{data.recipe.description}</p>
+      <div
+        className={css.text}
+        dangerouslySetInnerHTML={{ __html: data.recipe.text }}
+      />
     </div>
   );
 };
