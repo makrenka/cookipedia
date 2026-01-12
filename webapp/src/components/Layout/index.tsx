@@ -1,5 +1,5 @@
 import { Link, Outlet } from "react-router-dom";
-import { getAllRecipiesRoute } from "../../lib/routes";
+import { getAllRecipiesRoute, getNewRecipeRoute } from "../../lib/routes";
 import css from "./index.module.scss";
 
 console.log(css);
@@ -13,6 +13,11 @@ export const Layout = () => {
           <li className={css.item}>
             <Link className={css.link} to={getAllRecipiesRoute()}>
               All pecipies
+            </Link>
+          </li>
+          <li className={css.item}>
+            <Link className={css.link} to={getNewRecipeRoute()}>
+              Add pecipe
             </Link>
           </li>
         </ul>

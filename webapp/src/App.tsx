@@ -2,13 +2,10 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { TrpcProvider } from "./lib/trpc";
 import { AllRecipiesPage } from "./pages/AllRecipiesPage";
 import { ViewRecipePage } from "./pages/ViewRecipePage";
-import {
-  getAllRecipiesRoute,
-  getViewRecipeRoute,
-  viewRecipeRouteParams,
-} from "./lib/routes";
+import * as routes from "./lib/routes";
 import { Layout } from "./components/Layout";
 import "./styles/global.scss";
+import { NewRecipePage } from "./pages/NewRecipePage";
 
 export const App = () => {
   return (
@@ -16,10 +13,17 @@ export const App = () => {
       <BrowserRouter>
         <Routes>
           <Route element={<Layout />}>
-            <Route path={getAllRecipiesRoute()} element={<AllRecipiesPage />} />
             <Route
-              path={getViewRecipeRoute(viewRecipeRouteParams)}
+              path={routes.getAllRecipiesRoute()}
+              element={<AllRecipiesPage />}
+            />
+            <Route
+              path={routes.getViewRecipeRoute(routes.viewRecipeRouteParams)}
               element={<ViewRecipePage />}
+            />
+            <Route
+              path={routes.getNewRecipeRoute()}
+              element={<NewRecipePage />}
             />
           </Route>
         </Routes>

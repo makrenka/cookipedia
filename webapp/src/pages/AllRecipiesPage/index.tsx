@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { trpc } from "../../lib/trpc";
 import { getViewRecipeRoute } from "../../lib/routes";
 import css from "./index.module.scss";
+import { Segment } from "../../components/Segment";
 
 export const AllRecipiesPage = () => {
   const { data, error, isLoading, isError } = trpc.getRecipies.useQuery();
@@ -15,23 +16,25 @@ export const AllRecipiesPage = () => {
   }
 
   return (
-    <div>
-      <h1 className={css.title}>All recipies</h1>
+    <Segment title="All recipies">
       <div className={css.recipies}>
         {data?.recipies.map((recipe) => (
           <div className={css.recipe} key={recipe.nick}>
-            <h2 className={css.recipeName}>
-              <Link
-                to={getViewRecipeRoute({ recipeNick: recipe.nick })}
-                className={css.recipeLink}
-              >
-                {recipe.name}
-              </Link>
-            </h2>
-            <p className={css.recipeDescription}>{recipe.description}</p>
+            <Segment
+              size={2}
+              title={
+                <Link
+                  to={getViewRecipeRoute({ recipeNick: recipe.nick })}
+                  className={css.recipeLink}
+                >
+                  {recipe.name}
+                </Link>
+              }
+              description={recipe.description}
+            />
           </div>
         ))}
       </div>
-    </div>
+    </Segment>
   );
 };

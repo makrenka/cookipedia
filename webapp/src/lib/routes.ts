@@ -12,3 +12,5 @@ export type ViewRecipeRouteParams = typeof viewRecipeRouteParams;
 export const viewRecipeRouteParams = getRouteParams({ recipeNick: true });
 export const getViewRecipeRoute = ({ recipeNick }: ViewRecipeRouteParams) =>
   `/recipies/${recipeNick}`;
+
+export const getNewRecipeRoute = () => "/recipies/new";
