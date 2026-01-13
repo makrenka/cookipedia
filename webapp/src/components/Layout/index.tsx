@@ -2,8 +2,6 @@ import { Link, Outlet } from "react-router-dom";
 import { getAllRecipiesRoute, getNewRecipeRoute } from "../../lib/routes";
 import css from "./index.module.scss";
 
-console.log(css);
-
 export const Layout = () => {
   return (
     <div className={css.layout}>
