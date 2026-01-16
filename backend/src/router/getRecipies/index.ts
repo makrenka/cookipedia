@@ -1,11 +1,14 @@
-import _ from "lodash";
-import { recipies } from "../../lib/recipies";
 import { trpc } from "../../lib/trpc";
 
-export const getRecipiesTrpcRoute = trpc.procedure.query(() => {
-  return {
-    recipies: recipies.map((recipe) =>
-      _.pick(recipe, ["nick", "name", "description"])
-    ),
-  };
+export const getRecipiesTrpcRoute = trpc.procedure.query(async ({ ctx }) => {
+  const recipies = await ctx.prisma.recipe.findMany({
+    select: {
+      id: true,
+      nick: true,
+      name: true,
+      description: true,
+    },
+  });
+
+  return { recipies };
 });
