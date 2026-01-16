@@ -1,5 +1,5 @@
 import { createTRPCReact } from "@trpc/react-query";
-import type { TrpcRouter } from "@cookipedia/backend/src/trpc";
+import type { TrpcRouter } from "@cookipedia/backend/src/router";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { httpBatchLink } from "@trpc/client";
 

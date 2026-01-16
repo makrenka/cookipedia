@@ -4,23 +4,20 @@ import { z } from "zod";
 import { Segment } from "../../components/Segment";
 import { Input } from "../../components/Input";
 import { Textarea } from "../../components/Textarea";
+import { trpc } from "../../lib/trpc";
+import { zCreateRecipeTrpcInput } from "@cookipedia/backend/src/router/createRecipe/input";
+import { useState } from "react";
+import { Alert } from "../../components/Alert";
+import { Button } from "../../components/Button";
+import { FormItems } from "../../components/FormItems";
 
-const schema = z.object({
-  name: z.string().min(1),
-  nick: z
-    .string()
-    .min(1)
-    .regex(
-      /^[a-z0-9-]+$/,
-      "Nick may contain only lowercase letters, numbers and dashes"
-    ),
-  description: z.string().min(1),
-  text: z.string().min(100, "Text should be at least 100 characters long"),
-});
-
-type FormValues = z.infer<typeof schema>;
+type FormValues = z.infer<typeof zCreateRecipeTrpcInput>;
 
 export const NewRecipePage = () => {
+  const [successMessageVisible, setSuccessMessageVisible] = useState(false);
+  const [submittingError, setSubmittingError] = useState<string | null>(null);
+
+  const createRecipe = trpc.createRecipe.useMutation();
   const formik = useFormik<FormValues>({
     initialValues: {
       name: "",
@@ -28,9 +25,23 @@ export const NewRecipePage = () => {
       description: "",
       text: "",
     },
-    validate: withZodSchema(schema) as any, // eslint-disable-line @typescript-eslint/no-explicit-any
-    onSubmit: (values) => {
-      console.info("Submitted", values);
+    validate: withZodSchema(zCreateRecipeTrpcInput) as any, // eslint-disable-line @typescript-eslint/no-explicit-any
+    onSubmit: async (values) => {
+      try {
+        await createRecipe.mutateAsync(values);
+        formik.resetForm();
+        setSuccessMessageVisible(true);
+        setTimeout(() => {
+          setSuccessMessageVisible(false);
+        }, 3000);
+      } catch (
+        error: any // eslint-disable-line @typescript-eslint/no-explicit-any
+      ) {
+        setSubmittingError(error.message);
+        setTimeout(() => {
+          setSubmittingError(null);
+        }, 3000);
+      }
     },
   });
 
@@ -42,14 +53,25 @@ export const NewRecipePage = () => {
           formik.handleSubmit();
         }}
       >
-        <Input name="name" label="Name" formik={formik} />
-        <Input name="nick" label="Nick" formik={formik} />
-        <Input name="description" label="Description" formik={formik} />
-        <Textarea name="text" label="Text" formik={formik} />
-        {!formik.isValid && !!formik.submitCount && (
-          <div style={{ color: "red" }}>Some fields are invalid</div>
-        )}
-        <button type="submit">Create recipe</button>
+        <FormItems>
+          <Input name="name" label="Name" formik={formik} />
+          <Input name="nick" label="Nick" formik={formik} />
+          <Input
+            name="description"
+            label="Description"
+            formik={formik}
+            maxWidth={500}
+          />
+          <Textarea name="text" label="Text" formik={formik} />
+          {!formik.isValid && !!formik.submitCount && (
+            <div style={{ color: "red" }}>Some fields are invalid</div>
+          )}
+          {!!submittingError && <Alert color="red">{submittingError}</Alert>}
+          {successMessageVisible && (
+            <Alert color="green">Recipe created!</Alert>
+          )}
+          <Button loading={formik.isSubmitting}>Create recipe</Button>
+        </FormItems>
       </form>
     </Segment>
   );

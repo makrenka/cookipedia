@@ -1,8 +1,8 @@
 import { useParams } from "react-router-dom";
 import type { ViewRecipeRouteParams } from "../../lib/routes";
-import { trpc } from "../../lib/trpc";
 import css from "./index.module.scss";
 import { Segment } from "../../components/Segment";
+import { trpc } from "../../lib/trpc";
 
 export const ViewRecipePage = () => {
   const { recipeNick } = useParams() as ViewRecipeRouteParams;
