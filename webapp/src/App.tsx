@@ -6,6 +6,7 @@ import * as routes from "./lib/routes";
 import { Layout } from "./components/Layout";
 import "./styles/global.scss";
 import { NewRecipePage } from "./pages/NewRecipePage";
+import { SignUpPage } from "./pages/SignUpPage";
 
 export const App = () => {
   return (
@@ -25,6 +26,7 @@ export const App = () => {
               path={routes.getNewRecipeRoute()}
               element={<NewRecipePage />}
             />
+            <Route path={routes.getSignUpRoute()} element={<SignUpPage />} />
           </Route>
         </Routes>
       </BrowserRouter>

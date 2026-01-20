@@ -1,4 +1,5 @@
 import { useParams } from "react-router-dom";
+import { format } from "date-fns/format";
 import type { ViewRecipeRouteParams } from "../../lib/routes";
 import css from "./index.module.scss";
 import { Segment } from "../../components/Segment";
@@ -25,6 +26,9 @@ export const ViewRecipePage = () => {
 
   return (
     <Segment title={data.recipe.name} description={data.recipe.description}>
+      <div className={css.createdAt}>
+        Created at: {format(data.recipe.createdAt, "yyyy-MM-dd")}
+      </div>
       <div
         className={css.text}
         dangerouslySetInnerHTML={{ __html: data.recipe.text }}

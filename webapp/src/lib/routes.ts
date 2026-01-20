@@ -14,3 +14,5 @@ export const getViewRecipeRoute = ({ recipeNick }: ViewRecipeRouteParams) =>
   `/recipies/${recipeNick}`;
 
 export const getNewRecipeRoute = () => "/recipies/new";
+
+export const getSignUpRoute = () => "/sign-up";

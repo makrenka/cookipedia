@@ -7,11 +7,13 @@ export const Input = <T extends Record<string, unknown>>({
   label,
   formik,
   maxWidth,
+  type = "text",
 }: {
   name: keyof T;
   label: string;
   formik: FormikProps<T>;
   maxWidth?: number;
+  type?: "text" | "password";
 }) => {
   const value = formik.values[name];
   const error = formik.errors[name] as string | undefined;
@@ -27,7 +29,7 @@ export const Input = <T extends Record<string, unknown>>({
       <input
         className={cn({ [css.input]: true, [css.invalid]: invalid })}
         style={{ maxWidth }}
-        type="text"
+        type={type}
         onChange={(e) => {
           formik.setFieldValue(name as string, e.target.value);
         }}
