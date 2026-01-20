@@ -1,48 +1,32 @@
 import { useFormik } from "formik";
-import { z } from "zod";
+import { withZodSchema } from "formik-validator-zod";
+import { useState } from "react";
 import Cookies from "js-cookie";
 import { Button } from "../../components/Button";
 import { FormItems } from "../../components/FormItems";
 import { Input } from "../../components/Input";
 import { Segment } from "../../components/Segment";
-import { withZodSchema } from "formik-validator-zod";
-import { useState } from "react";
 import { trpc } from "../../lib/trpc";
-import { zSignUpTrpcInput } from "@cookipedia/backend/src/router/signUp/input";
 import { Alert } from "../../components/Alert";
+import { zSignInTrpcInput } from "@cookipedia/backend/src/router/signIn/input";
 import { useNavigate } from "react-router-dom";
 import { getAllRecipiesRoute } from "../../lib/routes";
 
-export const SignUpPage = () => {
+export const SignInPage = () => {
   const navigate = useNavigate();
   const [submittingError, setSubmittingError] = useState<string | null>(null);
-  const signUp = trpc.signUp.useMutation();
+  const signIn = trpc.signIn.useMutation();
 
   const formik = useFormik({
     initialValues: {
       nick: "",
       password: "",
-      passwordAgain: "",
     },
-    validate: withZodSchema(
-      zSignUpTrpcInput
-        .extend({
-          passwordAgain: z.string().min(1),
-        })
-        .superRefine((val, ctx) => {
-          if (val.password !== val.passwordAgain) {
-            ctx.addIssue({
-              code: "custom",
-              message: "Password must be the same",
-              path: ["passwordAgain"],
-            });
-          }
-        }),
-    ) as any, // eslint-disable-line @typescript-eslint/no-explicit-any
+    validate: withZodSchema(zSignInTrpcInput) as any, // eslint-disable-line @typescript-eslint/no-explicit-any
     onSubmit: async (values) => {
       try {
         setSubmittingError(null);
-        const { token } = await signUp.mutateAsync(values);
+        const { token } = await signIn.mutateAsync(values);
         Cookies.set("token", token, { expires: 99999 });
         navigate(getAllRecipiesRoute());
       } catch (
@@ -64,17 +48,11 @@ export const SignUpPage = () => {
             type="password"
             formik={formik}
           />
-          <Input
-            label="Password again"
-            name="passwordAgain"
-            type="password"
-            formik={formik}
-          />
           {!formik.isValid && !!formik.submitCount && (
             <Alert color="red">Some fields are invalid</Alert>
           )}
           {submittingError && <Alert color="red">{submittingError}</Alert>}
-          <Button loading={formik.isSubmitting}>Sign Up</Button>
+          <Button loading={formik.isSubmitting}>Sign In</Button>
         </FormItems>
       </form>
     </Segment>
