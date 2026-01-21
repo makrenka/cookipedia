@@ -14,6 +14,7 @@ import { getAllRecipiesRoute } from "../../lib/routes";
 
 export const SignInPage = () => {
   const navigate = useNavigate();
+  const trpcUtils = trpc.useUtils();
   const [submittingError, setSubmittingError] = useState<string | null>(null);
   const signIn = trpc.signIn.useMutation();
 
@@ -28,6 +29,7 @@ export const SignInPage = () => {
         setSubmittingError(null);
         const { token } = await signIn.mutateAsync(values);
         Cookies.set("token", token, { expires: 99999 });
+        void trpcUtils.invalidate();
         navigate(getAllRecipiesRoute());
       } catch (
         error: any // eslint-disable-line @typescript-eslint/no-explicit-any
@@ -38,7 +40,7 @@ export const SignInPage = () => {
   });
 
   return (
-    <Segment title="Sign Up">
+    <Segment title="Sign In">
       <form onSubmit={formik.handleSubmit}>
         <FormItems>
           <Input label="Nick" name="nick" formik={formik} />

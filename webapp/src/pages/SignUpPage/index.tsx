@@ -15,6 +15,7 @@ import { getAllRecipiesRoute } from "../../lib/routes";
 
 export const SignUpPage = () => {
   const navigate = useNavigate();
+  const trpcUtils = trpc.useUtils();
   const [submittingError, setSubmittingError] = useState<string | null>(null);
   const signUp = trpc.signUp.useMutation();
 
@@ -44,6 +45,7 @@ export const SignUpPage = () => {
         setSubmittingError(null);
         const { token } = await signUp.mutateAsync(values);
         Cookies.set("token", token, { expires: 99999 });
+        void trpcUtils.invalidate();
         navigate(getAllRecipiesRoute());
       } catch (
         error: any // eslint-disable-line @typescript-eslint/no-explicit-any
