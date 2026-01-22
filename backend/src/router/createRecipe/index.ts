@@ -4,6 +4,9 @@ import { zCreateRecipeTrpcInput } from "./input";
 export const createRecipeTrpcRoute = trpc.procedure
   .input(zCreateRecipeTrpcInput)
   .mutation(async ({ ctx, input }) => {
+    if (!ctx.me) {
+      throw Error("Not authenticated");
+    }
     const exRecipe = await ctx.prisma.recipe.findUnique({
       where: {
         nick: input.nick,
@@ -15,7 +18,7 @@ export const createRecipeTrpcRoute = trpc.procedure
     }
 
     await ctx.prisma.recipe.create({
-      data: input,
+      data: { ...input, authorId: ctx.me.id },
     });
 
     return true;

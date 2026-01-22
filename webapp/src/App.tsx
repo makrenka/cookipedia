@@ -9,6 +9,7 @@ import { NewRecipePage } from "./pages/NewRecipePage";
 import { SignUpPage } from "./pages/SignUpPage";
 import { SignInPage } from "./pages/SignInPage";
 import { SignOutPage } from "./pages/SignOutPage";
+import { EditRecipePage } from "./pages/EditRecipePage";
 
 export const App = () => {
   return (
@@ -31,6 +32,10 @@ export const App = () => {
             />
             <Route path={routes.getSignUpRoute()} element={<SignUpPage />} />
             <Route path={routes.getSignInRoute()} element={<SignInPage />} />
+            <Route
+              path={routes.getEditRecipeRoute(routes.editRecipeRouteParams)}
+              element={<EditRecipePage />}
+            />
           </Route>
         </Routes>
       </BrowserRouter>

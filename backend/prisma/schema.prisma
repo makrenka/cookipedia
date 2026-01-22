@@ -13,6 +13,8 @@ model Recipe {
     description String
     text        String
     createdAt   DateTime @default(now())
+    authorId    String
+    author      User     @relation(fields: [authorId], references: [id])
 }
 
 model User {
@@ -20,4 +22,5 @@ model User {
     nick      String   @unique
     password  String
     createdAt DateTime @default(now())
+    recipes   Recipe[]
 }
