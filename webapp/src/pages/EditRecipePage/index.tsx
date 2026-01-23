@@ -14,6 +14,7 @@ import { Textarea } from "../../components/Textarea";
 import { Alert } from "../../components/Alert";
 import { Button } from "../../components/Button";
 import { useForm } from "../../lib/form";
+import { useMe } from "../../lib/ctx";
 
 const EditRecipeComponent = ({
   recipe,
@@ -30,7 +31,7 @@ const EditRecipeComponent = ({
       navigate(getViewRecipeRoute({ recipeNick: values.nick }));
     },
     resetOnSuccess: false,
-    showValidationAlert: true
+    showValidationAlert: true,
   });
 
   return (
@@ -58,14 +59,9 @@ export const EditRecipePage = () => {
   const { recipeNick } = useParams() as EditRecipeRouteParams;
 
   const getRecipeResult = trpc.getRecipe.useQuery({ recipeNick });
-  const getMeResult = trpc.getMe.useQuery();
+  const me = useMe();
 
-  if (
-    getRecipeResult.isLoading ||
-    getRecipeResult.isFetching ||
-    getMeResult.isLoading ||
-    getMeResult.isFetching
-  ) {
+  if (getRecipeResult.isLoading || getRecipeResult.isFetching) {
     return <span>Loading...</span>;
   }
 
@@ -73,16 +69,11 @@ export const EditRecipePage = () => {
     return <span>Error: {getRecipeResult.error.message}</span>;
   }
 
-  if (getMeResult.isError) {
-    return <span>Error: {getMeResult.error.message}</span>;
-  }
-
   if (!getRecipeResult.data?.recipe) {
     return <span>Recipe not found</span>;
   }
 
   const recipe = getRecipeResult.data.recipe;
-  const me = getMeResult.data?.me;
 
   if (!me) {
     return <span>Only for authorized</span>;

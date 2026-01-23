@@ -8,19 +8,15 @@ import css from "./index.module.scss";
 import { Segment } from "../../components/Segment";
 import { trpc } from "../../lib/trpc";
 import { LinkButton } from "../../components/Button";
+import { useMe } from "../../lib/ctx";
 
 export const ViewRecipePage = () => {
   const { recipeNick } = useParams() as ViewRecipeRouteParams;
 
   const getRecipeResult = trpc.getRecipe.useQuery({ recipeNick });
-  const getMeResult = trpc.getMe.useQuery();
+  const me = useMe();
 
-  if (
-    getRecipeResult.isLoading ||
-    getRecipeResult.isFetching ||
-    getMeResult.isLoading ||
-    getMeResult.isFetching
-  ) {
+  if (getRecipeResult.isLoading || getRecipeResult.isFetching) {
     return <span>Loading...</span>;
   }
 
@@ -28,16 +24,11 @@ export const ViewRecipePage = () => {
     return <span>Error: {getRecipeResult.error.message}</span>;
   }
 
-  if (getMeResult.isError) {
-    return <span>Error: {getMeResult.error.message}</span>;
-  }
-
   if (!getRecipeResult.data?.recipe) {
     return <span>Recipe not found</span>;
   }
 
   const recipe = getRecipeResult.data.recipe;
-  const me = getMeResult.data?.me;
 
   return (
     <Segment title={recipe.name} description={recipe.description}>

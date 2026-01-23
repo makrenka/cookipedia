@@ -10,35 +10,38 @@ import { SignUpPage } from "./pages/SignUpPage";
 import { SignInPage } from "./pages/SignInPage";
 import { SignOutPage } from "./pages/SignOutPage";
 import { EditRecipePage } from "./pages/EditRecipePage";
+import { AppContextProvider } from "./lib/ctx";
 
 export const App = () => {
   return (
     <TrpcProvider>
-      <BrowserRouter>
-        <Routes>
-          <Route path={routes.getSignOutRoute()} element={<SignOutPage />} />
-          <Route element={<Layout />}>
-            <Route
-              path={routes.getAllRecipiesRoute()}
-              element={<AllRecipiesPage />}
-            />
-            <Route
-              path={routes.getViewRecipeRoute(routes.viewRecipeRouteParams)}
-              element={<ViewRecipePage />}
-            />
-            <Route
-              path={routes.getNewRecipeRoute()}
-              element={<NewRecipePage />}
-            />
-            <Route path={routes.getSignUpRoute()} element={<SignUpPage />} />
-            <Route path={routes.getSignInRoute()} element={<SignInPage />} />
-            <Route
-              path={routes.getEditRecipeRoute(routes.editRecipeRouteParams)}
-              element={<EditRecipePage />}
-            />
-          </Route>
-        </Routes>
-      </BrowserRouter>
+      <AppContextProvider>
+        <BrowserRouter>
+          <Routes>
+            <Route path={routes.getSignOutRoute()} element={<SignOutPage />} />
+            <Route element={<Layout />}>
+              <Route
+                path={routes.getAllRecipiesRoute()}
+                element={<AllRecipiesPage />}
+              />
+              <Route
+                path={routes.getViewRecipeRoute(routes.viewRecipeRouteParams)}
+                element={<ViewRecipePage />}
+              />
+              <Route
+                path={routes.getNewRecipeRoute()}
+                element={<NewRecipePage />}
+              />
+              <Route path={routes.getSignUpRoute()} element={<SignUpPage />} />
+              <Route path={routes.getSignInRoute()} element={<SignInPage />} />
+              <Route
+                path={routes.getEditRecipeRoute(routes.editRecipeRouteParams)}
+                element={<EditRecipePage />}
+              />
+            </Route>
+          </Routes>
+        </BrowserRouter>
+      </AppContextProvider>
     </TrpcProvider>
   );
 };
