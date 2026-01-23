@@ -2,13 +2,16 @@ import classNames from "classnames";
 import type React from "react";
 import css from "./index.module.scss";
 
-export const Alert = ({
-  color,
-  children,
-}: {
+export type AlertProps = {
   color: "red" | "green";
+  hidden?: boolean;
   children: React.ReactNode;
-}) => {
+};
+
+export const Alert = ({ color, hidden, children }: AlertProps) => {
+  if (hidden) {
+    return null;
+  }
   return (
     <div className={classNames({ [css.alert]: true, [css[color]]: true })}>
       {children}

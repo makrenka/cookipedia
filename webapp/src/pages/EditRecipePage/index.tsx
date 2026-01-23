@@ -5,10 +5,7 @@ import {
 } from "../../lib/routes";
 import { trpc } from "../../lib/trpc";
 import type { TrpcRouterOutput } from "@cookipedia/backend/src/router";
-import { useState } from "react";
-import { useFormik } from "formik";
 import { pick } from "lodash";
-import { withZodSchema } from "formik-validator-zod";
 import { zUpdateRecipeTrpcInput } from "@cookipedia/backend/src/router/updateRecipe/input";
 import { Segment } from "../../components/Segment";
 import { FormItems } from "../../components/FormItems";
@@ -16,6 +13,7 @@ import { Input } from "../../components/Input";
 import { Textarea } from "../../components/Textarea";
 import { Alert } from "../../components/Alert";
 import { Button } from "../../components/Button";
+import { useForm } from "../../lib/form";
 
 const EditRecipeComponent = ({
   recipe,
@@ -23,24 +21,16 @@ const EditRecipeComponent = ({
   recipe: NonNullable<TrpcRouterOutput["getRecipe"]["recipe"]>;
 }) => {
   const navigate = useNavigate();
-  const [submittingError, setSubmittingError] = useState<string | null>(null);
   const updateRecipe = trpc.updateRecipe.useMutation();
-  const formik = useFormik({
+  const { formik, buttonProps, alertProps } = useForm({
     initialValues: pick(recipe, ["name", "nick", "description", "text"]),
-    validate: withZodSchema(
-      zUpdateRecipeTrpcInput.omit({ recipeId: true }),
-    ) as any, // eslint-disable-line @typescript-eslint/no-explicit-any
+    validationSchema: zUpdateRecipeTrpcInput.omit({ recipeId: true }) as any, // eslint-disable-line @typescript-eslint/no-explicit-any
     onSubmit: async (values) => {
-      try {
-        setSubmittingError(null);
-        await updateRecipe.mutateAsync({ recipeId: recipe.id, ...values });
-        navigate(getViewRecipeRoute({ recipeNick: values.nick }));
-      } catch (
-        err: any // eslint-disable-line @typescript-eslint/no-explicit-any
-      ) {
-        setSubmittingError(err.message);
-      }
+      await updateRecipe.mutateAsync({ recipeId: recipe.id, ...values });
+      navigate(getViewRecipeRoute({ recipeNick: values.nick }));
     },
+    resetOnSuccess: false,
+    showValidationAlert: true
   });
 
   return (
@@ -56,11 +46,8 @@ const EditRecipeComponent = ({
             formik={formik}
           />
           <Textarea label="Text" name="text" formik={formik} />
-          {!formik.isValid && !!formik.submitCount && (
-            <Alert color="red">Some fields are invalid</Alert>
-          )}
-          {submittingError && <Alert color="red">{submittingError}</Alert>}
-          <Button loading={formik.isSubmitting}>Update recipe</Button>
+          <Alert {...alertProps} />
+          <Button {...buttonProps}>Update recipe</Button>
         </FormItems>
       </form>
     </Segment>
