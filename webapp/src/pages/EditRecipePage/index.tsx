@@ -4,7 +4,6 @@ import {
   type EditRecipeRouteParams,
 } from "../../lib/routes";
 import { trpc } from "../../lib/trpc";
-import type { TrpcRouterOutput } from "@cookipedia/backend/src/router";
 import { pick } from "lodash";
 import { zUpdateRecipeTrpcInput } from "@cookipedia/backend/src/router/updateRecipe/input";
 import { Segment } from "../../components/Segment";
@@ -14,13 +13,23 @@ import { Textarea } from "../../components/Textarea";
 import { Alert } from "../../components/Alert";
 import { Button } from "../../components/Button";
 import { useForm } from "../../lib/form";
-import { useMe } from "../../lib/ctx";
+import { withPageWrapper } from "../../lib/pageWrapper";
 
-const EditRecipeComponent = ({
-  recipe,
-}: {
-  recipe: NonNullable<TrpcRouterOutput["getRecipe"]["recipe"]>;
-}) => {
+export const EditRecipePage = withPageWrapper({
+  authorizedOnly: true,
+  useQuery: () => {
+    const { recipeNick } = useParams() as EditRecipeRouteParams;
+    return trpc.getRecipe.useQuery({ recipeNick });
+  },
+  checkExists: ({ queryResult }) => !!queryResult.data.recipe,
+  checkExistsMessage: "Recipe not found",
+  checkAccess: ({ queryResult, ctx }) =>
+    !!ctx.me && ctx.me.id === queryResult.data.recipe?.authorId,
+  checkAccessMessage: "A recipe can only be edited by the author",
+  setProps: ({ queryResult }) => ({
+    recipe: queryResult.data.recipe!,
+  }),
+})(({ recipe }) => {
   const navigate = useNavigate();
   const updateRecipe = trpc.updateRecipe.useMutation();
   const { formik, buttonProps, alertProps } = useForm({
@@ -53,35 +62,35 @@ const EditRecipeComponent = ({
       </form>
     </Segment>
   );
-};
+});
 
-export const EditRecipePage = () => {
-  const { recipeNick } = useParams() as EditRecipeRouteParams;
+// export const EditRecipePage = () => {
+//   const { recipeNick } = useParams() as EditRecipeRouteParams;
 
-  const getRecipeResult = trpc.getRecipe.useQuery({ recipeNick });
-  const me = useMe();
+//   const getRecipeResult = trpc.getRecipe.useQuery({ recipeNick });
+//   const me = useMe();
 
-  if (getRecipeResult.isLoading || getRecipeResult.isFetching) {
-    return <span>Loading...</span>;
-  }
+//   if (getRecipeResult.isLoading || getRecipeResult.isFetching) {
+//     return <span>Loading...</span>;
+//   }
 
-  if (getRecipeResult.isError) {
-    return <span>Error: {getRecipeResult.error.message}</span>;
-  }
+//   if (getRecipeResult.isError) {
+//     return <span>Error: {getRecipeResult.error.message}</span>;
+//   }
 
-  if (!getRecipeResult.data?.recipe) {
-    return <span>Recipe not found</span>;
-  }
+//   if (!getRecipeResult.data?.recipe) {
+//     return <span>Recipe not found</span>;
+//   }
 
-  const recipe = getRecipeResult.data.recipe;
+//   const recipe = getRecipeResult.data.recipe;
 
-  if (!me) {
-    return <span>Only for authorized</span>;
-  }
+//   if (!me) {
+//     return <span>Only for authorized</span>;
+//   }
 
-  if (me.id !== recipe.authorId) {
-    return <span>A recipe can only be edited by the author</span>;
-  }
+//   if (me.id !== recipe.authorId) {
+//     return <span>A recipe can only be edited by the author</span>;
+//   }
 
-  return <EditRecipeComponent recipe={recipe} />;
-};
+//   return <EditRecipeComponent recipe={recipe} />;
+// };

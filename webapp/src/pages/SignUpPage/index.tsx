@@ -7,12 +7,12 @@ import { Segment } from "../../components/Segment";
 import { trpc } from "../../lib/trpc";
 import { zSignUpTrpcInput } from "@cookipedia/backend/src/router/signUp/input";
 import { Alert } from "../../components/Alert";
-import { useNavigate } from "react-router-dom";
-import { getAllRecipiesRoute } from "../../lib/routes";
 import { useForm } from "../../lib/form";
+import { withPageWrapper } from "../../lib/pageWrapper";
 
-export const SignUpPage = () => {
-  const navigate = useNavigate();
+export const SignUpPage = withPageWrapper({
+  redirectAuthorized: true,
+})(() => {
   const trpcUtils = trpc.useUtils();
   const signUp = trpc.signUp.useMutation();
 
@@ -39,7 +39,6 @@ export const SignUpPage = () => {
       const { token } = await signUp.mutateAsync(values);
       Cookies.set("token", token, { expires: 99999 });
       void trpcUtils.invalidate();
-      navigate(getAllRecipiesRoute());
     },
     resetOnSuccess: false,
   });
@@ -67,4 +66,4 @@ export const SignUpPage = () => {
       </form>
     </Segment>
   );
-};
+});

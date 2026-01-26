@@ -5,13 +5,13 @@ import { Input } from "../../components/Input";
 import { Segment } from "../../components/Segment";
 import { trpc } from "../../lib/trpc";
 import { zSignInTrpcInput } from "@cookipedia/backend/src/router/signIn/input";
-import { useNavigate } from "react-router-dom";
-import { getAllRecipiesRoute } from "../../lib/routes";
 import { Alert } from "../../components/Alert";
 import { useForm } from "../../lib/form";
+import { withPageWrapper } from "../../lib/pageWrapper";
 
-export const SignInPage = () => {
-  const navigate = useNavigate();
+export const SignInPage = withPageWrapper({
+  redirectAuthorized: true,
+})(() => {
   const trpcUtils = trpc.useUtils();
   const signIn = trpc.signIn.useMutation();
 
@@ -25,7 +25,6 @@ export const SignInPage = () => {
       const { token } = await signIn.mutateAsync(values);
       Cookies.set("token", token, { expires: 99999 });
       void trpcUtils.invalidate();
-      navigate(getAllRecipiesRoute());
     },
     resetOnSuccess: false,
   });
@@ -47,4 +46,4 @@ export const SignInPage = () => {
       </form>
     </Segment>
   );
-};
+});
