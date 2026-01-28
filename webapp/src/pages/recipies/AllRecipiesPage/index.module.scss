@@ -1,0 +1,18 @@
+@import "../../../styles/mixins";
+@import "../../../styles/vars";
+
+.recipies {
+  .recipe {
+    padding: 20px;
+    border: 1px solid $black;
+    border-radius: 10px;
+
+    & + .recipe {
+      margin-top: 20px;
+    }
+
+    .recipeLink {
+      @include link;
+    }
+  }
+}

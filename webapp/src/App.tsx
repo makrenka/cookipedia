@@ -1,16 +1,17 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { TrpcProvider } from "./lib/trpc";
-import { AllRecipiesPage } from "./pages/AllRecipiesPage";
-import { ViewRecipePage } from "./pages/ViewRecipePage";
+import { AllRecipiesPage } from "./pages/recipies/AllRecipiesPage";
+import { ViewRecipePage } from "./pages/recipies/ViewRecipePage";
 import * as routes from "./lib/routes";
 import { Layout } from "./components/Layout";
 import "./styles/global.scss";
-import { NewRecipePage } from "./pages/NewRecipePage";
-import { SignUpPage } from "./pages/SignUpPage";
-import { SignInPage } from "./pages/SignInPage";
-import { SignOutPage } from "./pages/SignOutPage";
-import { EditRecipePage } from "./pages/EditRecipePage";
+import { NewRecipePage } from "./pages/recipies/NewRecipePage";
+import { SignUpPage } from "./pages/auth/SignUpPage";
+import { SignInPage } from "./pages/auth/SignInPage";
+import { SignOutPage } from "./pages/auth/SignOutPage";
+import { EditRecipePage } from "./pages/recipies/EditRecipePage";
 import { AppContextProvider } from "./lib/ctx";
+import { NotFoundPage } from "./pages/other/NotFoundPage";
 
 export const App = () => {
   return (
@@ -38,6 +39,7 @@ export const App = () => {
                 path={routes.getEditRecipeRoute(routes.editRecipeRouteParams)}
                 element={<EditRecipePage />}
               />
+              <Route path="*" element={<NotFoundPage />} />
             </Route>
           </Routes>
         </BrowserRouter>
