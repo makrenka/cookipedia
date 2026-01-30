@@ -25,7 +25,10 @@ export const ViewRecipePage = withPageWrapper({
       <div className={css.createdAt}>
         Created at: {format(recipe.createdAt, "yyyy-MM-dd")}
       </div>
-      <div className={css.author}>Author: {recipe.author.nick}</div>
+      <div className={css.author}>
+        Author: {recipe.author.nick}
+        {recipe.author.name ? ` (${recipe.author.name})` : ""}
+      </div>
       <div
         className={css.text}
         dangerouslySetInnerHTML={{ __html: recipe.text }}

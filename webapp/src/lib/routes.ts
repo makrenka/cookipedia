@@ -19,6 +19,8 @@ export const getEditRecipeRoute = ({ recipeNick }: EditRecipeRouteParams) =>
 
 export const getNewRecipeRoute = () => "/recipies/new";
 
+export const getEditProfileRoute = () => "/edit-profile";
+
 export const getSignUpRoute = () => "/sign-up";
 export const getSignInRoute = () => "/sign-in";
 export const getSignOutRoute = () => "/sign-out";

@@ -1,6 +1,7 @@
 import { Link, Outlet } from "react-router-dom";
 import {
   getAllRecipiesRoute,
+  getEditProfileRoute,
   getNewRecipeRoute,
   getSignInRoute,
   getSignOutRoute,
@@ -27,6 +28,11 @@ export const Layout = () => {
               <li className={css.item}>
                 <Link className={css.link} to={getNewRecipeRoute()}>
                   Add pecipe
+                </Link>
+              </li>
+              <li className={css.item}>
+                <Link className={css.link} to={getEditProfileRoute()}>
+                  Edit Profile
                 </Link>
               </li>
               <li className={css.item}>
