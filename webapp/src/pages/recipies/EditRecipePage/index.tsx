@@ -65,34 +65,3 @@ export const EditRecipePage = withPageWrapper({
     </Segment>
   );
 });
-
-// export const EditRecipePage = () => {
-//   const { recipeNick } = useParams() as EditRecipeRouteParams;
-
-//   const getRecipeResult = trpc.getRecipe.useQuery({ recipeNick });
-//   const me = useMe();
-
-//   if (getRecipeResult.isLoading || getRecipeResult.isFetching) {
-//     return <span>Loading...</span>;
-//   }
-
-//   if (getRecipeResult.isError) {
-//     return <span>Error: {getRecipeResult.error.message}</span>;
-//   }
-
-//   if (!getRecipeResult.data?.recipe) {
-//     return <span>Recipe not found</span>;
-//   }
-
-//   const recipe = getRecipeResult.data.recipe;
-
-//   if (!me) {
-//     return <span>Only for authorized</span>;
-//   }
-
-//   if (me.id !== recipe.authorId) {
-//     return <span>A recipe can only be edited by the author</span>;
-//   }
-
-//   return <EditRecipeComponent recipe={recipe} />;
-// };

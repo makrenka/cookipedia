@@ -1,6 +1,7 @@
 import type { TrpcRouterOutput } from "@cookipedia/backend/src/router";
 import React, { createContext, useContext } from "react";
 import { trpc } from "./trpc";
+import { Loader } from "../components/Loader";
 
 export type AppContext = {
   me: TrpcRouterOutput["getMe"]["me"];
@@ -20,9 +21,9 @@ export const AppContextProvider = ({
   return (
     <AppReactContext.Provider value={{ me: data?.me || null }}>
       {isLoading || isFetching ? (
-        <p>Loading...</p>
+        <Loader type="page" />
       ) : isError ? (
-        <p>Error: {error.message}</p>
+        <p>Error: {error?.message}</p>
       ) : (
         children
       )}

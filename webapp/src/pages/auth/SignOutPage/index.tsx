@@ -3,6 +3,7 @@ import { trpc } from "../../../lib/trpc";
 import { useEffect } from "react";
 import Cookies from "js-cookie";
 import { getSignInRoute } from "../../../lib/routes";
+import { Loader } from "../../../components/Loader";
 
 export const SignOutPage = () => {
   const navigate = useNavigate();
@@ -15,5 +16,5 @@ export const SignOutPage = () => {
     //eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  return <p>Loading...</p>;
+  return <Loader type="page" />;
 };
