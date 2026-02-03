@@ -1,6 +1,10 @@
 @import "../../../styles/mixins";
 @import "../../../styles/vars";
 
+.filter {
+  margin-bottom: 20px;
+}
+
 .recipies {
   .recipe {
     padding: 20px;

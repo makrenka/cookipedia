@@ -18,7 +18,7 @@ export const useForm = <TZodSchema extends z.ZodTypeAny>({
   showValidationAlert?: boolean;
   initialValues: z.infer<TZodSchema>;
   validationSchema?: TZodSchema;
-  onSubmit: (
+  onSubmit?: (
     values: z.infer<TZodSchema> & Record<string, any>, // eslint-disable-line @typescript-eslint/no-explicit-any
     actions: FormikHelpers<z.infer<TZodSchema> & Record<string, any>>, // eslint-disable-line @typescript-eslint/no-explicit-any
   ) => Promise<any> | any; // eslint-disable-line @typescript-eslint/no-explicit-any
@@ -31,6 +31,9 @@ export const useForm = <TZodSchema extends z.ZodTypeAny>({
     initialValues: initialValues || ({} as any), // eslint-disable-line @typescript-eslint/no-explicit-any
     ...(validationSchema && { validate: withZodSchema(validationSchema) }),
     onSubmit: async (values, formikHelpers) => {
+      if (!onSubmit) {
+        return;
+      }
       try {
         setSubmittingError(null);
         await onSubmit(values, formikHelpers);

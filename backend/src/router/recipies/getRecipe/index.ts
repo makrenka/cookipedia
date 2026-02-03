@@ -1,5 +1,6 @@
 import z from "zod";
 import { trpc } from "../../../lib/trpc";
+import _ from "lodash";
 
 export const getRecipeTrpcRoute = trpc.procedure
   .input(
@@ -8,7 +9,7 @@ export const getRecipeTrpcRoute = trpc.procedure
     }),
   )
   .query(async ({ ctx, input }) => {
-    const recipe = await ctx.prisma.recipe.findUnique({
+    const rawRecipe = await ctx.prisma.recipe.findUnique({
       where: {
         nick: input.recipeNick,
       },
@@ -20,8 +21,29 @@ export const getRecipeTrpcRoute = trpc.procedure
             name: true,
           },
         },
+        recipiesLikes: {
+          select: {
+            id: true,
+          },
+          where: {
+            userId: ctx.me?.id,
+          },
+        },
+        _count: {
+          select: {
+            recipiesLikes: true,
+          },
+        },
       },
     });
+
+    const isLikedByMe = !!rawRecipe?.recipiesLikes.length;
+    const likesCount = rawRecipe?._count.recipiesLikes || 0;
+    const recipe = rawRecipe && {
+      ..._.omit(rawRecipe, ["recipiesLikes", "_count"]),
+      isLikedByMe,
+      likesCount,
+    };
 
     return { recipe };
   });

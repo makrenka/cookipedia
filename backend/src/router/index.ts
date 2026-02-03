@@ -9,6 +9,7 @@ import { updateProfileTrpcRoute } from "./auth/updateProfile";
 import { createRecipeTrpcRoute } from "./recipies/createRecipe";
 import { getRecipeTrpcRoute } from "./recipies/getRecipe";
 import { getRecipiesTrpcRoute } from "./recipies/getRecipies";
+import { setRecipeLikeTrpcRoute } from "./recipies/setRecipeLike";
 import { updateRecipeTrpcRoute } from "./recipies/updateRecipe";
 // @endindex
 
@@ -22,6 +23,7 @@ export const trpcRouter = trpc.router({
   createRecipe: createRecipeTrpcRoute,
   getRecipe: getRecipeTrpcRoute,
   getRecipies: getRecipiesTrpcRoute,
+  setRecipeLike: setRecipeLikeTrpcRoute,
   updateRecipe: updateRecipeTrpcRoute,
   // @endindex
 });

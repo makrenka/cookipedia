@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import InfiniteScroll from "react-infinite-scroller";
+import { useDebounceValue } from "usehooks-ts";
 import { trpc } from "../../../lib/trpc";
 import { getViewRecipeRoute } from "../../../lib/routes";
 import css from "./index.module.scss";
@@ -7,8 +8,16 @@ import { Segment } from "../../../components/Segment";
 import { Alert } from "../../../components/Alert";
 import { layoutContentElRef } from "../../../components/Layout";
 import { Loader } from "../../../components/Loader";
+import { useForm } from "../../../lib/form";
+import { zGetRecipiesTrpcInput } from "@cookipedia/backend/src/router/recipies/getRecipies/input";
+import { Input } from "../../../components/Input";
 
 export const AllRecipiesPage = () => {
+  const { formik } = useForm({
+    initialValues: { search: "" },
+    validationSchema: zGetRecipiesTrpcInput.pick({ search: true }),
+  });
+  const [search] = useDebounceValue(formik.values.search, 1000);
   const {
     data,
     error,
@@ -20,7 +29,7 @@ export const AllRecipiesPage = () => {
     isRefetching,
   } = trpc.getRecipies.useInfiniteQuery(
     {
-      limit: 2,
+      search,
     },
     {
       getNextPageParam: (lastPage) => {
@@ -31,10 +40,15 @@ export const AllRecipiesPage = () => {
 
   return (
     <Segment title="All recipies">
+      <div className={css.filter}>
+        <Input maxWidth={"100%"} label="Search" name="search" formik={formik} />
+      </div>
       {isLoading || isRefetching ? (
         <Loader type="section" />
       ) : isError ? (
         <Alert color="red">{error.message}</Alert>
+      ) : !data?.pages[0].recipies.length ? (
+        <Alert color="brown">Nothing found by search</Alert>
       ) : (
         <div className={css.recipies}>
           <InfiniteScroll
@@ -72,7 +86,9 @@ export const AllRecipiesPage = () => {
                       </Link>
                     }
                     description={recipe.description}
-                  />
+                  >
+                    Likes: {recipe.likesCount}
+                  </Segment>
                 </div>
               ))}
           </InfiniteScroll>

@@ -12,7 +12,7 @@ export const Input = <T extends Record<string, unknown>>({
   name: keyof T;
   label: string;
   formik: FormikProps<T>;
-  maxWidth?: number;
+  maxWidth?: number | string;
   type?: "text" | "password";
 }) => {
   const value = formik.values[name];
