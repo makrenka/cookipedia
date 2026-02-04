@@ -37,6 +37,10 @@ export const getRecipeTrpcRoute = trpc.procedure
       },
     });
 
+    if (rawRecipe?.blockedAt) {
+      throw new Error("Recipe is blocked by administrator");
+    }
+
     const isLikedByMe = !!rawRecipe?.recipiesLikes.length;
     const likesCount = rawRecipe?._count.recipiesLikes || 0;
     const recipe = rawRecipe && {

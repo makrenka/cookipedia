@@ -16,7 +16,7 @@ export const useForm = <TZodSchema extends z.ZodTypeAny>({
   successMessage?: string | false;
   resetOnSuccess?: boolean;
   showValidationAlert?: boolean;
-  initialValues: z.infer<TZodSchema>;
+  initialValues?: z.infer<TZodSchema>;
   validationSchema?: TZodSchema;
   onSubmit?: (
     values: z.infer<TZodSchema> & Record<string, any>, // eslint-disable-line @typescript-eslint/no-explicit-any

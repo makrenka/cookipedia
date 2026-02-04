@@ -14,6 +14,7 @@ import { Alert } from "../../../components/Alert";
 import { Button } from "../../../components/Button";
 import { useForm } from "../../../lib/form";
 import { withPageWrapper } from "../../../lib/pageWrapper";
+import { canEditRecipe } from "@cookipedia/backend/src/utils/can";
 
 export const EditRecipePage = withPageWrapper({
   authorizedOnly: true,
@@ -24,7 +25,7 @@ export const EditRecipePage = withPageWrapper({
   setProps: ({ queryResult, ctx, checkExists, checkAccess }) => {
     const recipe = checkExists(queryResult.data.recipe, "Recipe not found");
     checkAccess(
-      ctx.me?.id === recipe.authorId,
+      canEditRecipe(ctx.me, recipe),
       "A recipe can only be edited by the author",
     );
     return {

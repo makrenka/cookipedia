@@ -7,9 +7,16 @@ import {
 import css from "./index.module.scss";
 import { Segment } from "../../../components/Segment";
 import { trpc } from "../../../lib/trpc";
-import { LinkButton } from "../../../components/Button";
+import { Button, LinkButton } from "../../../components/Button";
 import { withPageWrapper } from "../../../lib/pageWrapper";
 import type { TrpcRouterOutput } from "@cookipedia/backend/src/router";
+import {
+  canBlockRecipies,
+  canEditRecipe,
+} from "@cookipedia/backend/src/utils/can";
+import { useForm } from "../../../lib/form";
+import { FormItems } from "../../../components/FormItems";
+import { Alert } from "../../../components/Alert";
 
 const LikeButton = ({
   recipe,
@@ -58,6 +65,32 @@ const LikeButton = ({
   );
 };
 
+const BlockRecipe = ({
+  recipe,
+}: {
+  recipe: NonNullable<TrpcRouterOutput["getRecipe"]["recipe"]>;
+}) => {
+  const blockRecipe = trpc.blockRecipe.useMutation();
+  const trpcUtils = trpc.useUtils();
+  const { formik, alertProps, buttonProps } = useForm({
+    onSubmit: async () => {
+      await blockRecipe.mutateAsync({ recipeId: recipe.id });
+      await trpcUtils.getRecipe.refetch({ recipeNick: recipe.nick });
+    },
+  });
+
+  return (
+    <form onSubmit={formik.handleSubmit}>
+      <FormItems>
+        <Alert {...alertProps} />
+        <Button color="red" {...buttonProps}>
+          Block recipe
+        </Button>
+      </FormItems>
+    </form>
+  );
+};
+
 export const ViewRecipePage = withPageWrapper({
   useQuery: () => {
     const { recipeNick } = useParams() as ViewRecipeRouteParams;
@@ -91,11 +124,16 @@ export const ViewRecipePage = withPageWrapper({
           </>
         )}
       </div>
-      {me?.id === recipe.authorId && (
+      {canEditRecipe(me, recipe) && (
         <div className={css.editButton}>
           <LinkButton to={getEditRecipeRoute({ recipeNick: recipe.nick })}>
             Edit recipe
           </LinkButton>
+        </div>
+      )}
+      {canBlockRecipies(me) && (
+        <div className={css.blockRecipe}>
+          <BlockRecipe recipe={recipe} />
         </div>
       )}
     </Segment>

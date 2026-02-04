@@ -15,7 +15,7 @@ export default [
         tsconfigRootDir: path.resolve("."),
         ecmaVersion: "latest",
         sourceType: "module",
-        ecmaFeatures: { jsx: true }, // ⚠ на самой справе для TS parser, jsx=True ў parserOptions
+        ecmaFeatures: { jsx: true },
       },
     },
     plugins: {
@@ -34,7 +34,7 @@ export default [
       parserOptions: {
         ecmaVersion: "latest",
         sourceType: "module",
-        ecmaFeatures: { jsx: true }, // у parserOptions, а не ў languageOptions
+        ecmaFeatures: { jsx: true },
       },
     },
     plugins: {
@@ -46,11 +46,9 @@ export default [
       ...reactPlugin.configs.recommended.rules,
       ...reactHooksPlugin.configs.recommended.rules,
       ...jsxA11yPlugin.configs.recommended.rules,
-      "react/react-in-jsx-scope": "off", // не патрэбна ў Vite
+      "react/react-in-jsx-scope": "off",
     },
   },
-
-  // Асаблівы tsconfig для Vite
   {
     files: ["vite.config.ts"],
     languageOptions: {

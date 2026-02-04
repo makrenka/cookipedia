@@ -6,6 +6,7 @@ import { signInTrpcRoute } from "./auth/signIn";
 import { signUpTrpcRoute } from "./auth/signUp";
 import { updatePasswordTrpcRoute } from "./auth/updatePassword";
 import { updateProfileTrpcRoute } from "./auth/updateProfile";
+import { blockRecipeTrpcRoute } from "./recipies/blockRecipe";
 import { createRecipeTrpcRoute } from "./recipies/createRecipe";
 import { getRecipeTrpcRoute } from "./recipies/getRecipe";
 import { getRecipiesTrpcRoute } from "./recipies/getRecipies";
@@ -20,6 +21,7 @@ export const trpcRouter = trpc.router({
   signUp: signUpTrpcRoute,
   updatePassword: updatePasswordTrpcRoute,
   updateProfile: updateProfileTrpcRoute,
+  blockRecipe: blockRecipeTrpcRoute,
   createRecipe: createRecipeTrpcRoute,
   getRecipe: getRecipeTrpcRoute,
   getRecipies: getRecipiesTrpcRoute,

@@ -17,16 +17,23 @@ model Recipe {
     authorId      String
     author        User         @relation(fields: [authorId], references: [id])
     recipiesLikes RecipeLike[]
+    blockedAt     DateTime?
 }
 
 model User {
-    id            String       @id @default(uuid())
-    nick          String       @unique
-    name          String       @default("")
+    id            String           @id @default(uuid())
+    nick          String           @unique
+    name          String           @default("")
     password      String
-    createdAt     DateTime     @default(now())
+    createdAt     DateTime         @default(now())
     recipes       Recipe[]
     recipiesLikes RecipeLike[]
+    permissions   UserPermission[]
+}
+
+enum UserPermission {
+    BLOCK_RECIPIES
+    ALL
 }
 
 model RecipeLike {

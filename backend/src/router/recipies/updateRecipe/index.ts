@@ -1,4 +1,5 @@
 import { trpc } from "../../../lib/trpc";
+import { canEditRecipe } from "../../../utils/can";
 import { zUpdateRecipeTrpcInput } from "./input";
 
 export const updateRecipeTrpcRoute = trpc.procedure
@@ -20,7 +21,7 @@ export const updateRecipeTrpcRoute = trpc.procedure
       throw new Error("NOT_FOUND");
     }
 
-    if (ctx.me.id !== recipe.authorId) {
+    if (!canEditRecipe(ctx.me, recipe)) {
       throw new Error("NOT_YOUR_RECIPE");
     }
 
