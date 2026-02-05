@@ -10,6 +10,7 @@ import { getAllRecipiesRoute } from "./routes";
 import { ErrorPageComponent } from "../components/ErrorPageComponent";
 import { NotFoundPage } from "../pages/other/NotFoundPage";
 import { Loader } from "../components/Loader";
+import { Helmet } from "react-helmet-async";
 
 class CheckExistsError extends Error {}
 const checkExistsFn = <T,>(value: T, message?: string): NonNullable<T> => {
@@ -65,6 +66,9 @@ type PageWrapperProps<
 
   showLoaderOnFetching?: boolean;
 
+  title: string | ((titleProps: HelperProps<TQueryResult> & TProps) => string);
+  isTitleExact?: boolean;
+
   useQuery?: () => TQueryResult;
   setProps?: (setPropsProps: SetPropsProps<TQueryResult>) => TProps;
   Page: React.FC<TProps>;
@@ -87,6 +91,8 @@ const PageWrapper = <
   useQuery,
   setProps,
   Page,
+  title,
+  isTitleExact = false,
   showLoaderOnFetching = true,
 }: PageWrapperProps<TProps, TQueryResult>) => {
   const navigate = useNavigate();
@@ -159,7 +165,19 @@ const PageWrapper = <
       checkAccess: checkAccessFn,
       getAuthorizedMe,
     }) as TProps;
-    return <Page {...props} />;
+    const calculatedTitle =
+      typeof title === "function" ? title({ ...helperProps, ...props }) : title;
+    const exactTitle = isTitleExact
+      ? calculatedTitle
+      : `${calculatedTitle} - Cookipedia`;
+    return (
+      <>
+        <Helmet>
+          <title>{exactTitle}</title>
+        </Helmet>
+        <Page {...props} />
+      </>
+    );
   } catch (error) {
     if (error instanceof CheckExistsError) {
       return (

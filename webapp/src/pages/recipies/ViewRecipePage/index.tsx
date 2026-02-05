@@ -101,6 +101,7 @@ export const ViewRecipePage = withPageWrapper({
     me: ctx.me,
   }),
   showLoaderOnFetching: false,
+  title: ({ recipe }) => recipe.name,
 })(({ recipe, me }) => {
   return (
     <Segment title={recipe.name} description={recipe.description}>

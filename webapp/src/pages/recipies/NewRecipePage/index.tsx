@@ -11,6 +11,7 @@ import { withPageWrapper } from "../../../lib/pageWrapper";
 
 export const NewRecipePage = withPageWrapper({
   authorizedOnly: true,
+  title: "New Recipe",
 })(() => {
   const createRecipe = trpc.createRecipe.useMutation();
   const { formik, buttonProps, alertProps } = useForm({

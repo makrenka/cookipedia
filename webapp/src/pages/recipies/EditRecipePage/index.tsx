@@ -32,6 +32,7 @@ export const EditRecipePage = withPageWrapper({
       recipe,
     };
   },
+  title: "Edit Recipe",
 })(({ recipe }) => {
   const navigate = useNavigate();
   const updateRecipe = trpc.updateRecipe.useMutation();

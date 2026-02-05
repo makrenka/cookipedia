@@ -1,4 +1,5 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { HelmetProvider } from "react-helmet-async";
 import { TrpcProvider } from "./lib/trpc";
 import { AllRecipiesPage } from "./pages/recipies/AllRecipiesPage";
 import { ViewRecipePage } from "./pages/recipies/ViewRecipePage";
@@ -16,39 +17,50 @@ import { EditProfilePage } from "./pages/auth/EditProfilePage";
 
 export const App = () => {
   return (
-    <TrpcProvider>
-      <AppContextProvider>
-        <BrowserRouter>
-          <Routes>
-            <Route path={routes.getSignOutRoute()} element={<SignOutPage />} />
-            <Route element={<Layout />}>
+    <HelmetProvider>
+      <TrpcProvider>
+        <AppContextProvider>
+          <BrowserRouter>
+            <Routes>
               <Route
-                path={routes.getAllRecipiesRoute()}
-                element={<AllRecipiesPage />}
+                path={routes.getSignOutRoute()}
+                element={<SignOutPage />}
               />
-              <Route
-                path={routes.getViewRecipeRoute(routes.viewRecipeRouteParams)}
-                element={<ViewRecipePage />}
-              />
-              <Route
-                path={routes.getNewRecipeRoute()}
-                element={<NewRecipePage />}
-              />
-              <Route
-                path={routes.getEditProfileRoute()}
-                element={<EditProfilePage />}
-              />
-              <Route path={routes.getSignUpRoute()} element={<SignUpPage />} />
-              <Route path={routes.getSignInRoute()} element={<SignInPage />} />
-              <Route
-                path={routes.getEditRecipeRoute(routes.editRecipeRouteParams)}
-                element={<EditRecipePage />}
-              />
-              <Route path="*" element={<NotFoundPage />} />
-            </Route>
-          </Routes>
-        </BrowserRouter>
-      </AppContextProvider>
-    </TrpcProvider>
+              <Route element={<Layout />}>
+                <Route
+                  path={routes.getAllRecipiesRoute()}
+                  element={<AllRecipiesPage />}
+                />
+                <Route
+                  path={routes.getViewRecipeRoute(routes.viewRecipeRouteParams)}
+                  element={<ViewRecipePage />}
+                />
+                <Route
+                  path={routes.getNewRecipeRoute()}
+                  element={<NewRecipePage />}
+                />
+                <Route
+                  path={routes.getEditProfileRoute()}
+                  element={<EditProfilePage />}
+                />
+                <Route
+                  path={routes.getSignUpRoute()}
+                  element={<SignUpPage />}
+                />
+                <Route
+                  path={routes.getSignInRoute()}
+                  element={<SignInPage />}
+                />
+                <Route
+                  path={routes.getEditRecipeRoute(routes.editRecipeRouteParams)}
+                  element={<EditRecipePage />}
+                />
+                <Route path="*" element={<NotFoundPage />} />
+              </Route>
+            </Routes>
+          </BrowserRouter>
+        </AppContextProvider>
+      </TrpcProvider>
+    </HelmetProvider>
   );
 };

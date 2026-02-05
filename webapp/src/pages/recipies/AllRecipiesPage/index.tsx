@@ -11,8 +11,12 @@ import { Loader } from "../../../components/Loader";
 import { useForm } from "../../../lib/form";
 import { zGetRecipiesTrpcInput } from "@cookipedia/backend/src/router/recipies/getRecipies/input";
 import { Input } from "../../../components/Input";
+import { withPageWrapper } from "../../../lib/pageWrapper";
 
-export const AllRecipiesPage = () => {
+export const AllRecipiesPage = withPageWrapper({
+  title: "Cookipedia",
+  isTitleExact: true,
+})(() => {
   const { formik } = useForm({
     initialValues: { search: "" },
     validationSchema: zGetRecipiesTrpcInput.pick({ search: true }),
@@ -96,4 +100,4 @@ export const AllRecipiesPage = () => {
       )}
     </Segment>
   );
-};
+});
