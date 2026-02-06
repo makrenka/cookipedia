@@ -8,5 +8,6 @@ export const zSignUpTrpcInput = z.object({
       /^[a-z0-9-]+$/,
       "Nick may contain only lowercase letters, numbers and dashes",
     ),
+  email: z.email(),
   password: z.string().min(1),
 });
