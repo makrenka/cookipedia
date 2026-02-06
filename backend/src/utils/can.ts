@@ -1,4 +1,4 @@
-import { Recipe, User, UserPermission } from "@prisma/client";
+import { type Recipe, type User, UserPermission } from "@prisma/client";
 
 type MaybeUser = Pick<User, "permissions" | "id"> | null;
 type MaybeRecipe = Pick<Recipe, "authorId"> | null;
