@@ -1,3 +1,4 @@
+import { sendRecipeBlockedEmail } from "../../../lib/emails";
 import { trpc } from "../../../lib/trpc";
 import { canBlockRecipies } from "../../../utils/can";
 import { zBlockRecipeTrpcInput } from "./input";
@@ -14,6 +15,9 @@ export const blockRecipeTrpcRoute = trpc.procedure
       where: {
         id: recipeId,
       },
+      include: {
+        author: true,
+      },
     });
 
     if (!recipe) {
@@ -28,6 +32,8 @@ export const blockRecipeTrpcRoute = trpc.procedure
         blockedAt: new Date(),
       },
     });
+
+    void sendRecipeBlockedEmail({ user: recipe.author, recipe });
 
     return true;
   });
