@@ -2,29 +2,34 @@ import _ from "lodash";
 import path from "node:path";
 import fg from "fast-glob";
 import { promises as fs } from "fs";
+import Handlebars from "handlebars";
 import { env } from "./env";
 import { Recipe, User } from "@prisma/client";
 
-const getHtmlTemplates = _.memoize(async () => {
+const getHbrTemplates = _.memoize(async () => {
   const htmlPathsPattern = path
     .join(process.cwd(), "src/emails/dist/**/*.html")
     .replace(/\\/g, "/");
-  console.log("htmlPathsPattern: ", htmlPathsPattern);
   const htmlPaths = fg.sync(htmlPathsPattern, { absolute: true });
-  console.log("htmlPaths: ", htmlPaths);
-  const htmlTemplates: Record<string, string> = {};
+  const hbrTemplates: Record<string, HandlebarsTemplateDelegate> = {};
 
   for (const htmlPath of htmlPaths) {
     const templateName = path.basename(htmlPath, ".html");
-    htmlTemplates[templateName] = await fs.readFile(htmlPath, "utf8");
+    const htmlTemplate = await fs.readFile(htmlPath, "utf8");
+    hbrTemplates[templateName] = Handlebars.compile(htmlTemplate);
   }
 
-  return htmlTemplates;
+  return hbrTemplates;
 });
 
-const getHtmlTemplate = async (templateName: string) => {
-  const htmlTemplates = await getHtmlTemplates();
-  return htmlTemplates[templateName];
+const getEmailHtml = async (
+  templateName: string,
+  templateVariables: Record<string, string> = {},
+) => {
+  const hbrTemplates = await getHbrTemplates();
+  const hbrTemplate = hbrTemplates[templateName];
+  const html = hbrTemplate(templateVariables);
+  return html;
 };
 
 const sendEmail = async ({
@@ -39,17 +44,17 @@ const sendEmail = async ({
   templateVariables?: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
 }) => {
   try {
-    const htmlTemplate = await getHtmlTemplate(templateName);
     const fullTemplateVariables = {
       ...templateVariables,
       homeUrl: env.WEBAPP_URL,
     };
+    const html = await getEmailHtml(templateName, fullTemplateVariables);
     console.info("sendEmail", {
       to,
       subject,
       templateName,
       fullTemplateVariables,
-      htmlTemplate,
+      html,
     });
     return { ok: true };
   } catch (error) {
