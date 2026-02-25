@@ -3,8 +3,8 @@ import z from "zod";
 
 dotenv.config();
 
-const zNoneemptyTrimmed = z.string().trim().min(1);
-const zNoneemptyTrimmedRequiredOnNotLocal = zNoneemptyTrimmed
+const zNonemptyTrimmed = z.string().trim().min(1);
+const zNoneemptyTrimmedRequiredOnNotLocal = zNonemptyTrimmed
   .optional()
   .refine(
     (val) => process.env.HOST_ENV === "local" || !!val,
@@ -12,16 +12,17 @@ const zNoneemptyTrimmedRequiredOnNotLocal = zNoneemptyTrimmed
   );
 
 const zEnv = z.object({
-  PORT: zNoneemptyTrimmed,
+  PORT: zNonemptyTrimmed,
   HOST_ENV: z.enum(["local", "production"]),
-  DATABASE_URL: zNoneemptyTrimmed,
-  JWT_SECRET: zNoneemptyTrimmed,
-  PASSWORD_SALT: zNoneemptyTrimmed,
-  INITIAL_ADMIN_PASSWORD: zNoneemptyTrimmed,
-  WEBAPP_URL: zNoneemptyTrimmed,
+  DATABASE_URL: zNonemptyTrimmed,
+  JWT_SECRET: zNonemptyTrimmed,
+  PASSWORD_SALT: zNonemptyTrimmed,
+  INITIAL_ADMIN_PASSWORD: zNonemptyTrimmed,
+  WEBAPP_URL: zNonemptyTrimmed,
   BREVO_API_KEY: zNoneemptyTrimmedRequiredOnNotLocal,
-  FROM_EMAIL_NAME: zNoneemptyTrimmed,
-  FROM_EMAIL_ADDRESS: zNoneemptyTrimmed,
+  RESEND_API_KEY: zNoneemptyTrimmedRequiredOnNotLocal,
+  FROM_EMAIL_NAME: zNonemptyTrimmed,
+  FROM_EMAIL_ADDRESS: zNonemptyTrimmed,
 });
 
 export const env = zEnv.parse(process.env);

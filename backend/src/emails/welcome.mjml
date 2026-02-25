@@ -11,7 +11,7 @@
           >Thanks For Registration, {{ userNick }}!</mj-text
         >
         <mj-text mj-class="text">Publish your first recipe:</mj-text>
-        <mj-button mj-class="button" href="{{addIdeaUrl}}"
+        <mj-button mj-class="button" href="{{addRecipeUrl}}"
           >Add Recipe</mj-button
         >
       </mj-column>
