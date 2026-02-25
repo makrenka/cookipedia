@@ -3,6 +3,7 @@ import path from "node:path";
 import fg from "fast-glob";
 import { promises as fs } from "fs";
 import Handlebars from "handlebars";
+import { getNewRecipeRoute } from "@cookipedia/webapp/src/lib/routes";
 import { env } from "./env";
 import { Recipe, User } from "@prisma/client";
 // import { sendEmailThroughBrevo } from "./brevo";
@@ -86,7 +87,7 @@ export const sendWelcomeEmail = async ({
     templateName: "welcome",
     templateVariables: {
       userNick: user.nick,
-      addRecipeUrl: `${env.WEBAPP_URL}/recipies/new`,
+      addRecipeUrl: `${env.WEBAPP_URL}${getNewRecipeRoute()}}`,
     },
   });
 };
