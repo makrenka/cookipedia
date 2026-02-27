@@ -1,0 +1,57 @@
+import { useParams as useReactRouterParams } from "react-router-dom";
+
+const baseUrl = "http://localhost:8000";
+
+type PumpedGetRouteInputBase = {
+  abs?: boolean;
+};
+
+function pumpGetRoute<T extends Record<string, boolean>>(
+  routeParamsDefinition: T,
+  getRoute: (routeParams: Record<keyof T, string>) => string,
+): {
+  (routeParams: Record<keyof T, string> & PumpedGetRouteInputBase): string;
+  placeholders: Record<keyof T, string>;
+  useParams: () => Record<keyof T, string>;
+  definition: string;
+};
+function pumpGetRoute(getRoute: () => string): {
+  (routeParams?: PumpedGetRouteInputBase): string;
+  placeholders: {}; // eslint-disable-line
+  useParams: () => {}; // eslint-disable-line
+  definition: string;
+};
+function pumpGetRoute(
+  routeParamsOrGetRoute?: any, // eslint-disable-line @typescript-eslint/no-explicit-any
+  maybeGetRoute?: any, // eslint-disable-line @typescript-eslint/no-explicit-any
+) {
+  const routeParamsDefinition =
+    typeof routeParamsOrGetRoute === "function" ? {} : routeParamsOrGetRoute;
+  const getRoute =
+    typeof routeParamsOrGetRoute === "function"
+      ? routeParamsOrGetRoute
+      : maybeGetRoute;
+  const placeholders = Object.keys(routeParamsDefinition).reduce(
+    (acc, key) => ({ ...acc, [key]: `:${key}` }),
+    {},
+  );
+  const definition = getRoute(placeholders);
+  const pumpedGetRoute = (routeParams?: PumpedGetRouteInputBase) => {
+    const route = getRoute(routeParams);
+    if (routeParams?.abs) {
+      return `${baseUrl}${route}`;
+    } else {
+      return route;
+    }
+  };
+
+  pumpedGetRoute.placeholders = placeholders;
+  pumpedGetRoute.definition = definition;
+  pumpedGetRoute.useParams = useReactRouterParams as any; // eslint-disable-line @typescript-eslint/no-explicit-any
+  return pumpedGetRoute;
+}
+
+export type RouteParams<T extends { placeholders: Record<string, string> }> =
+  T["placeholders"];
+
+export const pgr = pumpGetRoute;

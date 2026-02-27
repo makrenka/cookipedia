@@ -1,8 +1,5 @@
-import { useNavigate, useParams } from "react-router-dom";
-import {
-  getViewRecipeRoute,
-  type EditRecipeRouteParams,
-} from "../../../lib/routes";
+import { useNavigate } from "react-router-dom";
+import { getEditRecipeRoute, getViewRecipeRoute } from "../../../lib/routes";
 import { trpc } from "../../../lib/trpc";
 import { pick } from "lodash";
 import { zUpdateRecipeTrpcInput } from "@cookipedia/backend/src/router/recipies/updateRecipe/input";
@@ -19,7 +16,7 @@ import { canEditRecipe } from "@cookipedia/backend/src/utils/can";
 export const EditRecipePage = withPageWrapper({
   authorizedOnly: true,
   useQuery: () => {
-    const { recipeNick } = useParams() as EditRecipeRouteParams;
+    const { recipeNick } = getEditRecipeRoute.useParams();
     return trpc.getRecipe.useQuery({ recipeNick });
   },
   setProps: ({ queryResult, ctx, checkExists, checkAccess }) => {

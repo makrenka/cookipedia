@@ -1,9 +1,5 @@
-import { useParams } from "react-router-dom";
 import { format } from "date-fns/format";
-import {
-  getEditRecipeRoute,
-  type ViewRecipeRouteParams,
-} from "../../../lib/routes";
+import { getEditRecipeRoute, getViewRecipeRoute } from "../../../lib/routes";
 import css from "./index.module.scss";
 import { Segment } from "../../../components/Segment";
 import { trpc } from "../../../lib/trpc";
@@ -98,7 +94,7 @@ const BlockRecipe = ({
 
 export const ViewRecipePage = withPageWrapper({
   useQuery: () => {
-    const { recipeNick } = useParams() as ViewRecipeRouteParams;
+    const { recipeNick } = getViewRecipeRoute.useParams();
     return trpc.getRecipe.useQuery({ recipeNick });
   },
   setProps: ({ queryResult, checkExists, ctx }) => ({

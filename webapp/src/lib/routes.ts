@@ -1,26 +1,23 @@
-const getRouteParams = <T extends Record<string, boolean>>(object: T) => {
-  return Object.keys(object).reduce(
-    (acc, key) => ({ ...acc, [key]: `:${key}` }),
-    {},
-  ) as Record<keyof T, string>;
-};
+import { pgr } from "../utils/pumpGetRoute";
 
-export const getAllRecipiesRoute = () => "/";
+export const getSignUpRoute = pgr(() => "/sign-up");
 
-export const viewRecipeRouteParams = getRouteParams({ recipeNick: true });
-export type ViewRecipeRouteParams = typeof viewRecipeRouteParams;
-export const getViewRecipeRoute = ({ recipeNick }: ViewRecipeRouteParams) =>
-  `/recipies/${recipeNick}`;
+export const getSignInRoute = pgr(() => "/sign-in");
 
-export const editRecipeRouteParams = getRouteParams({ recipeNick: true });
-export type EditRecipeRouteParams = typeof editRecipeRouteParams;
-export const getEditRecipeRoute = ({ recipeNick }: EditRecipeRouteParams) =>
-  `/recipies/${recipeNick}/edit`;
+export const getSignOutRoute = pgr(() => "/sign-out");
 
-export const getNewRecipeRoute = () => "/recipies/new";
+export const getEditProfileRoute = pgr(() => "/edit-profile");
 
-export const getEditProfileRoute = () => "/edit-profile";
+export const getAllRecipiesRoute = pgr(() => "/");
 
-export const getSignUpRoute = () => "/sign-up";
-export const getSignInRoute = () => "/sign-in";
-export const getSignOutRoute = () => "/sign-out";
+export const getViewRecipeRoute = pgr(
+  { recipeNick: true },
+  ({ recipeNick }) => `/recipies/${recipeNick}`,
+);
+
+export const getEditRecipeRoute = pgr(
+  { recipeNick: true },
+  ({ recipeNick }) => `/recipies/${recipeNick}/edit`,
+);
+
+export const getNewRecipeRoute = pgr(() => "/recipies/new");

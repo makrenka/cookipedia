@@ -23,36 +23,36 @@ export const App = () => {
           <BrowserRouter>
             <Routes>
               <Route
-                path={routes.getSignOutRoute()}
+                path={routes.getSignOutRoute.definition}
                 element={<SignOutPage />}
               />
               <Route element={<Layout />}>
                 <Route
-                  path={routes.getAllRecipiesRoute()}
+                  path={routes.getAllRecipiesRoute.definition}
                   element={<AllRecipiesPage />}
                 />
                 <Route
-                  path={routes.getViewRecipeRoute(routes.viewRecipeRouteParams)}
+                  path={routes.getViewRecipeRoute.definition}
                   element={<ViewRecipePage />}
                 />
                 <Route
-                  path={routes.getNewRecipeRoute()}
+                  path={routes.getNewRecipeRoute.definition}
                   element={<NewRecipePage />}
                 />
                 <Route
-                  path={routes.getEditProfileRoute()}
+                  path={routes.getEditProfileRoute.definition}
                   element={<EditProfilePage />}
                 />
                 <Route
-                  path={routes.getSignUpRoute()}
+                  path={routes.getSignUpRoute.definition}
                   element={<SignUpPage />}
                 />
                 <Route
-                  path={routes.getSignInRoute()}
+                  path={routes.getSignInRoute.definition}
                   element={<SignInPage />}
                 />
                 <Route
-                  path={routes.getEditRecipeRoute(routes.editRecipeRouteParams)}
+                  path={routes.getEditRecipeRoute.definition}
                   element={<EditRecipePage />}
                 />
                 <Route path="*" element={<NotFoundPage />} />

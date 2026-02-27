@@ -87,7 +87,7 @@ export const sendWelcomeEmail = async ({
     templateName: "welcome",
     templateVariables: {
       userNick: user.nick,
-      addRecipeUrl: `${env.WEBAPP_URL}${getNewRecipeRoute()}}`,
+      addRecipeUrl: `${getNewRecipeRoute({ abs: true })}}`,
     },
   });
 };
