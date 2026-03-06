@@ -3,7 +3,10 @@ import path from "node:path";
 import fg from "fast-glob";
 import { promises as fs } from "fs";
 import Handlebars from "handlebars";
-import { getNewRecipeRoute } from "../../../webapp/src/lib/routes";
+import {
+  getNewRecipeRoute,
+  getViewRecipeRoute,
+} from "../../../webapp/src/lib/routes"; // todo: imports like @cookipedia/webapp/src/lib/routes
 import { env } from "./env";
 import { Recipe, User } from "@prisma/client";
 // import { sendEmailThroughBrevo } from "./brevo";
@@ -105,6 +108,26 @@ export const sendRecipeBlockedEmail = async ({
     templateName: "recipeBlocked",
     templateVariables: {
       recipeNick: recipe.nick,
+    },
+  });
+};
+
+export const sendMostLikedRecipiesEmail = async ({
+  user,
+  recipies,
+}: {
+  user: Pick<User, "email">;
+  recipies: Array<Pick<Recipe, "nick" | "name">>;
+}) => {
+  return await sendEmail({
+    to: user.email,
+    subject: "Most liked recipies!",
+    templateName: "mostLikedRecipies",
+    templateVariables: {
+      recipies: recipies.map((recipe) => ({
+        name: recipe.name,
+        url: getViewRecipeRoute({ abs: true, recipeNick: recipe.nick }),
+      })),
     },
   });
 };

@@ -1,0 +1,23 @@
+<mjml>
+  <mj-head>
+    <mj-title>Most liked recipies!</mj-title>
+    <mj-include path="./_head.mjml" />
+  </mj-head>
+  <mj-body mj-class="body">
+    <mj-include path="./_header.mjml" />
+    <mj-section mj-class="content">
+      <mj-column>
+        <mj-text mj-class="h1">
+          Hello! Check this month most liked recipies:
+        </mj-text>
+        <mj-text mj-class="text">
+          {{#each recipies}}
+          <a href="{{this.url}}">{{ this.name }}</a
+          ><br />
+          {{/each}}
+        </mj-text>
+      </mj-column>
+    </mj-section>
+    <mj-include path="./_footer.mjml" />
+  </mj-body>
+</mjml>
