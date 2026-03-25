@@ -3,7 +3,7 @@
     "private": true,
     "version": "0.0.0",
     "scripts": {
-        "dev": "ts-node-dev --watch ./src/emails/dist,./.env --rs --exit-child ./src/index.ts",
+        "dev": "ts-node-dev -r tsconfig-paths/register --watch ./src/emails/dist,./.env --rs --exit-child ./src/index.ts",
         "build-emails": "ts-node src/scripts/build-emails.ts",
         "copy-emails": "copyfiles ./src/emails/dist/*.html ./dist/backend",
         "build-ts": "rimraf ./dist && tsc --build ./tsconfig.json",
@@ -20,6 +20,7 @@
     },
     "devDependencies": {
         "@cookipedia/webapp": "workspace:*",
+        "@cookipedia/shared": "workspace:*",
         "@types/cors": "^2.8.19",
         "@types/cron": "^2.4.3",
         "@types/express": "^5.0.6",

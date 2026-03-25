@@ -1,4 +1,10 @@
 import { zUpdateProfileTrpcInput } from "@cookipedia/backend/src/router/auth/updateProfile/input";
+import type { TrpcRouterOutput } from "@cookipedia/backend/src/router";
+import { zUpdatePasswordTrpcInput } from "@cookipedia/backend/src/router/auth/updatePassword/input";
+import {
+  zPasswordsMustBeTheSame,
+  zStringRequired,
+} from "@cookipedia/shared/src/zod";
 import { useForm } from "../../../lib/form";
 import { withPageWrapper } from "../../../lib/pageWrapper";
 import { trpc } from "../../../lib/trpc";
@@ -7,9 +13,6 @@ import { FormItems } from "../../../components/FormItems";
 import { Input } from "../../../components/Input";
 import { Alert } from "../../../components/Alert";
 import { Button } from "../../../components/Button";
-import type { TrpcRouterOutput } from "@cookipedia/backend/src/router";
-import { zUpdatePasswordTrpcInput } from "@cookipedia/backend/src/router/auth/updatePassword/input";
-import z from "zod";
 
 const General = ({
   me,
@@ -54,17 +57,9 @@ const Password = () => {
     },
     validationSchema: zUpdatePasswordTrpcInput
       .extend({
-        newPasswordAgain: z.string().min(1),
+        newPasswordAgain: zStringRequired,
       })
-      .superRefine((val, ctx) => {
-        if (val.newPassword !== val.newPasswordAgain) {
-          ctx.addIssue({
-            code: "custom",
-            message: "Password must be the same",
-            path: ["newPasswordAgain"],
-          });
-        }
-      }),
+      .superRefine(zPasswordsMustBeTheSame("newPassword", "newPasswordAgain")),
     onSubmit: async ({ newPassword, oldPassword }) => {
       await updatePassword.mutateAsync({ newPassword, oldPassword });
     },

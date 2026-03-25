@@ -4,9 +4,11 @@
     "transpileOnly": true
   },
   "compilerOptions": {
-    "plugins": [{"transform": "typescript-transform-paths"}],
+    // "plugins": [{"transform": "typescript-transform-paths"}],
     "paths": {
-      "@cookipedia/webapp/*": ["../webapp/*"]
+      "@cookipedia/webapp/*": ["../webapp/*"],
+      "@cookipedia/shared/*": ["../shared/src/*"],
+      "@cookipedia/shared": ["../shared/src"]
     },
     "outDir": "./dist",
     "allowJs": true,

@@ -1,6 +1,6 @@
 import { zStringRequired } from "@cookipedia/shared/src/zod";
 import z from "zod";
 
-export const zBlockRecipeTrpcInput = z.object({
-  recipeId: zStringRequired,
+export const zGetRecipeTrpcInput = z.object({
+  recipeNick: zStringRequired,
 });

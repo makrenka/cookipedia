@@ -1,4 +1,3 @@
-import { z } from "zod";
 import Cookies from "js-cookie";
 import { Button } from "../../../components/Button";
 import { FormItems } from "../../../components/FormItems";
@@ -9,6 +8,10 @@ import { zSignUpTrpcInput } from "@cookipedia/backend/src/router/auth/signUp/inp
 import { Alert } from "../../../components/Alert";
 import { useForm } from "../../../lib/form";
 import { withPageWrapper } from "../../../lib/pageWrapper";
+import {
+  zPasswordsMustBeTheSame,
+  zStringRequired,
+} from "@cookipedia/shared/src/zod";
 
 export const SignUpPage = withPageWrapper({
   redirectAuthorized: true,
@@ -26,17 +29,9 @@ export const SignUpPage = withPageWrapper({
     },
     validationSchema: zSignUpTrpcInput
       .extend({
-        passwordAgain: z.string().min(1),
+        passwordAgain: zStringRequired,
       })
-      .superRefine((val, ctx) => {
-        if (val.password !== val.passwordAgain) {
-          ctx.addIssue({
-            code: "custom",
-            message: "Password must be the same",
-            path: ["passwordAgain"],
-          });
-        }
-      }),
+      .superRefine(zPasswordsMustBeTheSame("newPassword", "newPasswordAgain")),
     onSubmit: async (values) => {
       const { token } = await signUp.mutateAsync(values);
       Cookies.set("token", token, { expires: 99999 });

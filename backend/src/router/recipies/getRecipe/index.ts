@@ -1,13 +1,10 @@
 import z from "zod";
 import { trpc } from "../../../lib/trpc";
 import _ from "lodash";
+import { zGetRecipeTrpcInput } from "./input";
 
 export const getRecipeTrpcRoute = trpc.procedure
-  .input(
-    z.object({
-      recipeNick: z.string(),
-    }),
-  )
+  .input(zGetRecipeTrpcInput)
   .query(async ({ ctx, input }) => {
     const rawRecipe = await ctx.prisma.recipe.findUnique({
       where: {
