@@ -1,3 +1,4 @@
+import { useStore } from "@nanostores/react";
 import type {
   UseTRPCQueryResult,
   UseTRPCQuerySuccessResult,
@@ -11,6 +12,7 @@ import { ErrorPageComponent } from "../components/ErrorPageComponent";
 import { NotFoundPage } from "../pages/other/NotFoundPage";
 import { Loader } from "../components/Loader";
 import { Helmet } from "react-helmet-async";
+import { lastVisitedNotAuthRouteStore } from "../components/NotAuthRouteTracker";
 
 class CheckExistsError extends Error {}
 const checkExistsFn = <T,>(value: T, message?: string): NonNullable<T> => {
@@ -95,6 +97,7 @@ const PageWrapper = <
   isTitleExact = false,
   showLoaderOnFetching = true,
 }: PageWrapperProps<TProps, TQueryResult>) => {
+  const lastVisitedNotAuthRouteRoute = useStore(lastVisitedNotAuthRouteStore);
   const navigate = useNavigate();
   const ctx = useAppContext();
   const queryResult = useQuery?.();
@@ -103,9 +106,9 @@ const PageWrapper = <
 
   useEffect(() => {
     if (redirectNeeded) {
-      navigate(getAllRecipiesRoute(), { replace: true });
+      navigate(lastVisitedNotAuthRouteRoute, { replace: true });
     }
-  }, [redirectNeeded, navigate]);
+  }, [redirectNeeded, navigate, lastVisitedNotAuthRouteRoute]);
 
   if (
     queryResult?.isLoading ||
