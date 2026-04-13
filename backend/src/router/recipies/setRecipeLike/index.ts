@@ -1,7 +1,7 @@
-import { trpc } from "../../../lib/trpc";
+import { trpcLoggedProcedure } from "../../../lib/trpc";
 import { zSetRecipeLikeTrpcInput } from "./input";
 
-export const setRecipeLikeTrpcRoute = trpc.procedure
+export const setRecipeLikeTrpcRoute = trpcLoggedProcedure
   .input(zSetRecipeLikeTrpcInput)
   .mutation(async ({ ctx, input }) => {
     const { recipeId, isLikedByMe } = input;

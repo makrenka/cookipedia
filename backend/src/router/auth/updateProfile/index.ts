@@ -1,8 +1,8 @@
 import { toClientMe } from "../../../lib/models";
-import { trpc } from "../../../lib/trpc";
+import { trpcLoggedProcedure } from "../../../lib/trpc";
 import { zUpdateProfileTrpcInput } from "./input";
 
-export const updateProfileTrpcRoute = trpc.procedure
+export const updateProfileTrpcRoute = trpcLoggedProcedure
   .input(zUpdateProfileTrpcInput)
   .mutation(async ({ ctx, input }) => {
     if (!ctx.me) {

@@ -1,9 +1,9 @@
 import { sendRecipeBlockedEmail } from "../../../lib/emails";
-import { trpc } from "../../../lib/trpc";
+import { trpcLoggedProcedure } from "../../../lib/trpc";
 import { canBlockRecipies } from "../../../utils/can";
 import { zBlockRecipeTrpcInput } from "./input";
 
-export const blockRecipeTrpcRoute = trpc.procedure
+export const blockRecipeTrpcRoute = trpcLoggedProcedure
   .input(zBlockRecipeTrpcInput)
   .mutation(async ({ ctx, input }) => {
     const { recipeId } = input;

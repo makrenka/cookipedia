@@ -11,6 +11,7 @@ import { env } from "./env";
 import { Recipe, User } from "@prisma/client";
 // import { sendEmailThroughBrevo } from "./brevo";
 import { sendEmailThroughResend } from "./resend";
+import { logger } from "./logger";
 
 const getHbrTemplates = _.memoize(async () => {
   const htmlPathsPattern = path
@@ -66,7 +67,7 @@ const sendEmail = async ({
       subject,
     });
 
-    console.info("sendEmail", {
+    logger.info('email', "sendEmail", {
       to,
       templateName,
       fullTemplateVariables,
@@ -74,7 +75,7 @@ const sendEmail = async ({
     });
     return { ok: true };
   } catch (error) {
-    console.error(error);
+    logger.error('email', error);
     return { ok: false };
   }
 };

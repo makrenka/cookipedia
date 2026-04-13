@@ -7,7 +7,6 @@ import { useAppContext, type AppContext } from "./ctx";
 import type React from "react";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
-import { getAllRecipiesRoute } from "./routes";
 import { ErrorPageComponent } from "../components/ErrorPageComponent";
 import { NotFoundPage } from "../pages/other/NotFoundPage";
 import { Loader } from "../components/Loader";

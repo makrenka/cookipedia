@@ -1,7 +1,7 @@
-import { trpc } from "../../../lib/trpc";
+import { trpcLoggedProcedure } from "../../../lib/trpc";
 import { zCreateRecipeTrpcInput } from "./input";
 
-export const createRecipeTrpcRoute = trpc.procedure
+export const createRecipeTrpcRoute = trpcLoggedProcedure
   .input(zCreateRecipeTrpcInput)
   .mutation(async ({ ctx, input }) => {
     if (!ctx.me) {
