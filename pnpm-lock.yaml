@@ -68,13 +68,16 @@ importers:
         version: 11.8.1(typescript@5.9.3)
       axios:
         specifier: ^1.13.5
-        version: 1.13.5
+        version: 1.13.5(debug@4.4.3)
       cors:
         specifier: ^2.8.5
         version: 2.8.5
       cron:
         specifier: ^4.4.0
         version: 4.4.0
+      debug:
+        specifier: ^4.4.3
+        version: 4.4.3
       dotenv:
         specifier: ^17.2.3
         version: 17.2.3
@@ -148,6 +151,9 @@ importers:
       '@types/cron':
         specifier: ^2.4.3
         version: 2.4.3
+      '@types/debug':
+        specifier: ^4.1.13
+        version: 4.1.13
       '@types/express':
         specifier: ^5.0.6
         version: 5.0.6
@@ -1890,6 +1896,9 @@ packages:
   '@types/cron@2.4.3':
     resolution: {integrity: sha512-ViRBkoZD9Rk0hGeMdd2GHGaOaZuH9mDmwsE5/Zo53Ftwcvh7h9VJc8lIt2wdgEwS4EW5lbtTX6vlE0idCLPOyA==}
     deprecated: This is a stub types definition. cron provides its own type definitions, so you do not need this installed.
+
+  '@types/debug@4.1.13':
+    resolution: {integrity: sha512-KSVgmQmzMwPlmtljOomayoR89W4FynCAi3E8PPs7vmDVPe84hT+vGPKkJfThkmXs0x0jAaa9U8uW8bbfyS2fWw==}
 
   '@types/estree@1.0.8':
     resolution: {integrity: sha512-dWHzHa2WqEXI/O1E9OjrocMTKJl2mSrEolh1Iomrv6U+JuNwaHXsXx9bLu5gG7BUWFIN0skIQJQ/L1rIex4X6w==}
@@ -6787,6 +6796,10 @@ snapshots:
     dependencies:
       cron: 4.4.0
 
+  '@types/debug@4.1.13':
+    dependencies:
+      '@types/ms': 2.1.0
+
   '@types/estree@1.0.8': {}
 
   '@types/express-serve-static-core@5.1.0':
@@ -7254,9 +7267,9 @@ snapshots:
 
   axe-core@4.11.0: {}
 
-  axios@1.13.5:
+  axios@1.13.5(debug@4.4.3):
     dependencies:
-      follow-redirects: 1.15.11
+      follow-redirects: 1.15.11(debug@4.4.3)
       form-data: 4.0.5
       proxy-from-env: 1.1.0
     transitivePeerDependencies:
@@ -8441,7 +8454,9 @@ snapshots:
 
   fn.name@1.1.0: {}
 
-  follow-redirects@1.15.11: {}
+  follow-redirects@1.15.11(debug@4.4.3):
+    optionalDependencies:
+      debug: 4.4.3
 
   for-each@0.3.5:
     dependencies:

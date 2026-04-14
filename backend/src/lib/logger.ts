@@ -6,6 +6,7 @@ import { EOL } from "node:os";
 import pc from "picocolors";
 import { MESSAGE } from "triple-beam";
 import * as yaml from "yaml";
+import debug from "debug";
 
 export const winstonLogger = winston.createLogger({
   level: "debug",
@@ -68,10 +69,16 @@ export const winstonLogger = winston.createLogger({
 export const logger = {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   info: (logType: string, message: string, meta?: Record<string, any>) => {
+    if (!debug.enabled(`cookipedia:${logType}`)) {
+      return;
+    }
     winstonLogger.info(message, { logType, ...meta });
   },
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   error: (logType: string, error: any, meta?: Record<string, any>) => {
+    if (!debug.enabled(`cookipedia:${logType}`)) {
+      return;
+    }
     const serializedError = serializeError(error);
     winstonLogger.error(serializedError.message || "Unknown error", {
       logType,

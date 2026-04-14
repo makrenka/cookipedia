@@ -8,8 +8,6 @@ import z from "zod";
 
 dotenv.config();
 
-
-
 const zEnv = z.object({
   PORT: zEnvNonemptyTrimmed,
   HOST_ENV: zEnvHost,
@@ -22,6 +20,7 @@ const zEnv = z.object({
   RESEND_API_KEY: zEnvNonemptyTrimmedRequiredOnNotLocal,
   FROM_EMAIL_NAME: zEnvNonemptyTrimmed,
   FROM_EMAIL_ADDRESS: zEnvNonemptyTrimmed,
+  DEBUG: zEnvNonemptyTrimmed,
 });
 
 export const env = zEnv.parse(process.env);
