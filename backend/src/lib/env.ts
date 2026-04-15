@@ -1,9 +1,9 @@
+import * as dotenv from "dotenv";
 import {
   zEnvHost,
   zEnvNonemptyTrimmed,
   zEnvNonemptyTrimmedRequiredOnNotLocal,
 } from "@cookipedia/shared/src/zod";
-import * as dotenv from "dotenv";
 import z from "zod";
 
 dotenv.config();
