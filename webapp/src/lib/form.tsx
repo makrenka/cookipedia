@@ -4,6 +4,8 @@ import { useMemo, useState } from "react";
 import type z from "zod";
 import type { AlertProps } from "../components/Alert";
 import type { ButtonProps } from "../components/Button";
+import { sentryCaptureException } from "./sentry";
+import { TRPCClientError } from "@trpc/client";
 
 export const useForm = <TZodSchema extends z.ZodTypeAny>({
   successMessage = false,
@@ -47,6 +49,9 @@ export const useForm = <TZodSchema extends z.ZodTypeAny>({
       } catch (
         error: any // eslint-disable-line @typescript-eslint/no-explicit-any
       ) {
+        if (!(error instanceof TRPCClientError)) {
+          sentryCaptureException(error);
+        }
         setSubmittingError(error);
       }
     },

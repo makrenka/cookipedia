@@ -4,6 +4,7 @@ import { TrpcProvider } from "./lib/trpc";
 import { AllRecipiesPage } from "./pages/recipies/AllRecipiesPage";
 import { ViewRecipePage } from "./pages/recipies/ViewRecipePage";
 import * as routes from "./lib/routes";
+import "./lib/sentry";
 import { Layout } from "./components/Layout";
 import "./styles/global.scss";
 import { NewRecipePage } from "./pages/recipies/NewRecipePage";
@@ -15,6 +16,7 @@ import { AppContextProvider } from "./lib/ctx";
 import { NotFoundPage } from "./pages/other/NotFoundPage";
 import { EditProfilePage } from "./pages/auth/EditProfilePage";
 import { NotAuthRouteTracker } from "./components/NotAuthRouteTracker";
+import { SentryUser } from "./lib/sentry";
 
 export const App = () => {
   return (
@@ -22,6 +24,7 @@ export const App = () => {
       <TrpcProvider>
         <AppContextProvider>
           <BrowserRouter>
+            <SentryUser />
             <NotAuthRouteTracker />
             <Routes>
               <Route
