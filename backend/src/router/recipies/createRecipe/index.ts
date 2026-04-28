@@ -1,3 +1,4 @@
+import { ExpectedError } from "../../../lib/error";
 import { trpcLoggedProcedure } from "../../../lib/trpc";
 import { zCreateRecipeTrpcInput } from "./input";
 
@@ -14,7 +15,7 @@ export const createRecipeTrpcRoute = trpcLoggedProcedure
     });
 
     if (exRecipe) {
-      throw Error("Recipe with this nick already exists");
+      throw new ExpectedError("Recipe with this nick already exists");
     }
 
     await ctx.prisma.recipe.create({

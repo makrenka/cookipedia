@@ -3,6 +3,7 @@ import { zSignUpTrpcInput } from "./input";
 import { getPasswordHash } from "../../../utils/getPasswordHash";
 import { signJWT } from "../../../utils/signJWT";
 import { sendWelcomeEmail } from "../../../lib/emails";
+import { ExpectedError } from "../../../lib/error";
 
 export const signUpTrpcRoute = trpcLoggedProcedure
   .input(zSignUpTrpcInput)
@@ -14,7 +15,7 @@ export const signUpTrpcRoute = trpcLoggedProcedure
     });
 
     if (exUserWithNick) {
-      throw Error("Recipe with this nick already exists");
+      throw new ExpectedError("User with this nick already exists");
     }
 
     const exUserWithEmail = await ctx.prisma.user.findUnique({
@@ -24,7 +25,7 @@ export const signUpTrpcRoute = trpcLoggedProcedure
     });
 
     if (exUserWithEmail) {
-      throw Error("Recipe with this email already exists");
+      throw new ExpectedError("User with this email already exists");
     }
 
     const user = await ctx.prisma.user.create({

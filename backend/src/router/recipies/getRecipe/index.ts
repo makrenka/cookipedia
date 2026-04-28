@@ -1,6 +1,7 @@
 import { trpcLoggedProcedure } from "../../../lib/trpc";
 import _ from "lodash";
 import { zGetRecipeTrpcInput } from "./input";
+import { ExpectedError } from "../../../lib/error";
 
 export const getRecipeTrpcRoute = trpcLoggedProcedure
   .input(zGetRecipeTrpcInput)
@@ -34,7 +35,7 @@ export const getRecipeTrpcRoute = trpcLoggedProcedure
     });
 
     if (rawRecipe?.blockedAt) {
-      throw new Error("Recipe is blocked by administrator");
+      throw new ExpectedError("Recipe is blocked by administrator");
     }
 
     const isLikedByMe = !!rawRecipe?.recipiesLikes.length;

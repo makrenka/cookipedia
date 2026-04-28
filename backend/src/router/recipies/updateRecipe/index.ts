@@ -1,3 +1,4 @@
+import { ExpectedError } from "../../../lib/error";
 import { trpcLoggedProcedure } from "../../../lib/trpc";
 import { canEditRecipe } from "../../../utils/can";
 import { zUpdateRecipeTrpcInput } from "./input";
@@ -33,7 +34,7 @@ export const updateRecipeTrpcRoute = trpcLoggedProcedure
       });
 
       if (exRecipe) {
-        throw new Error("Recipe with this nick already exists");
+        throw new ExpectedError("Recipe with this nick already exists");
       }
     }
 
