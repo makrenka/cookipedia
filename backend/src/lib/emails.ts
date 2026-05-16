@@ -8,7 +8,7 @@ import {
   getViewRecipeRoute,
 } from "../../../webapp/src/lib/routes"; // todo: imports like @cookipedia/webapp/src/lib/routes
 import { env } from "./env";
-import { Recipe, User } from "@prisma/client";
+import { type Recipe, type User } from "@prisma/client";
 // import { sendEmailThroughBrevo } from "./brevo";
 import { sendEmailThroughResend } from "./resend";
 import { logger } from "./logger";
@@ -67,7 +67,7 @@ const sendEmail = async ({
       subject,
     });
 
-    logger.info('email', "sendEmail", {
+    logger.info("email", "sendEmail", {
       to,
       templateName,
       fullTemplateVariables,
@@ -75,7 +75,7 @@ const sendEmail = async ({
     });
     return { ok: true };
   } catch (error) {
-    logger.error('email', error);
+    logger.error("email", error);
     return { ok: false };
   }
 };
@@ -91,7 +91,7 @@ export const sendWelcomeEmail = async ({
     templateName: "welcome",
     templateVariables: {
       userNick: user.nick,
-      addRecipeUrl: `${getNewRecipeRoute({ abs: true })}}`,
+      addRecipeUrl: `${getNewRecipeRoute({ abs: true })}`,
     },
   });
 };

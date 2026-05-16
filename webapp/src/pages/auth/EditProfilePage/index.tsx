@@ -30,6 +30,7 @@ const General = ({
     onSubmit: async (values) => {
       const updatedMe = await updateProfile.mutateAsync(values);
       trpcUtils.getMe.setData(undefined, { me: updatedMe });
+      throw new Error("My Error 2"); // !!
     },
     successMessage: "Profile updated",
     resetOnSuccess: false,

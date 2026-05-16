@@ -42,9 +42,9 @@ export const winstonLogger = winston.createLogger({
                 "hostEnv",
               ]);
 
-              const stringifyedLogData = _.trim(
-                yaml.stringify(visibleMessageTags, (k, v) =>
-                  _.isFunction(v) ? "Function" : v,
+              const stringifiedLogData = _.trim(
+                yaml.stringify(visibleMessageTags, (_, v) =>
+                  typeof v === "function" ? "Function" : v,
                 ),
               );
 
@@ -54,7 +54,7 @@ export const winstonLogger = winston.createLogger({
                   [
                     topMessage,
                     Object.keys(visibleMessageTags).length > 0
-                      ? `${EOL}${stringifyedLogData}`
+                      ? `${EOL}${stringifiedLogData}`
                       : "",
                   ]
                     .filter(Boolean)
@@ -68,8 +68,8 @@ export const winstonLogger = winston.createLogger({
 });
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-type Meta = Record<string, any> | undefined;
-const prettifyMeta = (meta: Meta): Meta => {
+export type LoggerMetaData = Record<string, any> | undefined;
+const prettifyMeta = (meta: LoggerMetaData): LoggerMetaData => {
   return deepMap(meta, ({ key, value }) => {
     if (
       [
@@ -89,14 +89,14 @@ const prettifyMeta = (meta: Meta): Meta => {
 };
 
 export const logger = {
-  info: (logType: string, message: string, meta?: Meta) => {
+  info: (logType: string, message: string, meta?: LoggerMetaData) => {
     if (!debug.enabled(`cookipedia:${logType}`)) {
       return;
     }
     winstonLogger.info(message, { logType, ...prettifyMeta(meta) });
   },
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  error: (logType: string, error: any, meta?: Meta) => {
+  error: (logType: string, error: any, meta?: LoggerMetaData) => {
     if (!debug.enabled(`cookipedia:${logType}`)) {
       return;
     }

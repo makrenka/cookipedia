@@ -43,6 +43,7 @@
         "@prisma/adapter-pg": "^7.2.0",
         "@prisma/client": "^7.2.0",
         "@prisma/config": "^7.2.0",
+        "@sentry/node": "^10.53.1",
         "@trpc/server": "^11.8.1",
         "axios": "^1.13.5",
         "cors": "^2.8.5",
