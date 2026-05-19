@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import InfiniteScroll from "react-infinite-scroller";
 import { useDebounceValue } from "usehooks-ts";
 import { trpc } from "../../../lib/trpc";
-import { getViewRecipeRoute } from "../../../lib/routes";
+import { getViewRecipeRoute } from "@cookipedia/shared/routes";
 import css from "./index.module.scss";
 import { Segment } from "../../../components/Segment";
 import { Alert } from "../../../components/Alert";

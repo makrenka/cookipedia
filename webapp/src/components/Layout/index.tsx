@@ -7,7 +7,7 @@ import {
   getSignInRoute,
   getSignOutRoute,
   getSignUpRoute,
-} from "../../lib/routes";
+} from "@cookipedia/shared/routes";
 import css from "./index.module.scss";
 import { useMe } from "../../lib/ctx";
 import { createRef } from "react";

@@ -3,7 +3,7 @@ import { HelmetProvider } from "react-helmet-async";
 import { TrpcProvider } from "./lib/trpc";
 import { AllRecipiesPage } from "./pages/recipies/AllRecipiesPage";
 import { ViewRecipePage } from "./pages/recipies/ViewRecipePage";
-import * as routes from "./lib/routes";
+import * as routes from "@cookipedia/shared/routes";
 import "./lib/sentry";
 import { Layout } from "./components/Layout";
 import "./styles/global.scss";

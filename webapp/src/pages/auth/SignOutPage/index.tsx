@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { trpc } from "../../../lib/trpc";
 import { useEffect } from "react";
 import Cookies from "js-cookie";
-import { getSignInRoute } from "../../../lib/routes";
+import { getSignInRoute } from "@cookipedia/shared/routes";
 import { Loader } from "../../../components/Loader";
 
 export const SignOutPage = () => {

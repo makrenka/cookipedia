@@ -3,8 +3,8 @@ import {
   zEnvHost,
   zEnvNonemptyTrimmed,
   zEnvNonemptyTrimmedRequiredOnNotLocal,
-} from "@cookipedia/shared/src/zod";
-import z from "zod";
+} from "@cookipedia/shared/zod";
+import { z } from "zod";
 
 dotenv.config();
 

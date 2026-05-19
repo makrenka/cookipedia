@@ -4,7 +4,7 @@ import { zUpdatePasswordTrpcInput } from "@cookipedia/backend/src/router/auth/up
 import {
   zPasswordsMustBeTheSame,
   zStringRequired,
-} from "@cookipedia/shared/src/zod";
+} from "@cookipedia/shared/zod";
 import { useForm } from "../../../lib/form";
 import { withPageWrapper } from "../../../lib/pageWrapper";
 import { trpc } from "../../../lib/trpc";
@@ -30,7 +30,6 @@ const General = ({
     onSubmit: async (values) => {
       const updatedMe = await updateProfile.mutateAsync(values);
       trpcUtils.getMe.setData(undefined, { me: updatedMe });
-      throw new Error("My Error 2"); // !!
     },
     successMessage: "Profile updated",
     resetOnSuccess: false,

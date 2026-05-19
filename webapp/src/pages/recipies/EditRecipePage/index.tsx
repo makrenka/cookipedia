@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { getEditRecipeRoute, getViewRecipeRoute } from "../../../lib/routes";
+import { getEditRecipeRoute, getViewRecipeRoute } from "@cookipedia/shared/routes";
 import { trpc } from "../../../lib/trpc";
 import { pick } from "lodash";
 import { zUpdateRecipeTrpcInput } from "@cookipedia/backend/src/router/recipies/updateRecipe/input";

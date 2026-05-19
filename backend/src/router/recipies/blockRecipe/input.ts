@@ -1,5 +1,5 @@
-import { zStringRequired } from "@cookipedia/shared/src/zod";
-import z from "zod";
+import { zStringRequired } from "@cookipedia/shared/zod";
+import { z } from "zod";
 
 export const zBlockRecipeTrpcInput = z.object({
   recipeId: zStringRequired,

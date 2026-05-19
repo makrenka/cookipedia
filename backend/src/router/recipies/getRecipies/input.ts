@@ -1,5 +1,5 @@
-import { zStringOptional } from "@cookipedia/shared/src/zod";
-import z from "zod";
+import { zStringOptional } from "@cookipedia/shared/zod";
+import { z } from "zod";
 
 export const zGetRecipiesTrpcInput = z.object({
   cursor: z.coerce.number().optional(),

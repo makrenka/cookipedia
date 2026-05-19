@@ -4,6 +4,7 @@
     "transpileOnly": true
   },
   "compilerOptions": {
+    "rootDir": "..",
     // "plugins": [{"transform": "typescript-transform-paths"}],
     "paths": {
       "@cookipedia/webapp/*": ["../webapp/*"],
@@ -13,7 +14,6 @@
     "outDir": "./dist",
     "allowJs": true,
     "allowSyntheticDefaultImports": true,
-    "downlevelIteration": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "noFallthroughCasesInSwitch": true,
@@ -25,8 +25,8 @@
     "inlineSources": true,
     "isolatedModules": false,
     "lib": ["ES2022"],
-    "module": "commonjs",
-    "moduleResolution": "Node",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
     "target": "ES2022"
   },
   "include": ["src", "prisma.config.ts"]

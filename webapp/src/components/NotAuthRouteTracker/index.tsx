@@ -4,7 +4,7 @@ import {
   getSignInRoute,
   getSignOutRoute,
   getSignUpRoute,
-} from "../../lib/routes";
+} from "@cookipedia/shared/routes";
 import { useLocation } from "react-router-dom";
 import { useEffect } from "react";
 

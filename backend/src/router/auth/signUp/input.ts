@@ -1,5 +1,9 @@
-import {zEmailRequired, zNickRequired, zStringRequired} from "@cookipedia/shared/src/zod"
-import z from "zod";
+import {
+  zEmailRequired,
+  zNickRequired,
+  zStringRequired,
+} from "@cookipedia/shared/zod";
+import { z } from "zod";
 
 export const zSignUpTrpcInput = z.object({
   nick: zNickRequired,

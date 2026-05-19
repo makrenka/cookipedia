@@ -2,8 +2,8 @@ import {
   zEnvHost,
   zEnvNonemptyTrimmed,
   zEnvNonemptyTrimmedRequiredOnNotLocal,
-} from "@cookipedia/shared/src/zod";
-import z from "zod";
+} from "@cookipedia/shared/zod";
+import { z } from "zod";
 
 export const zEnv = z.object({
   NODE_ENV: z.enum(["development", "production"]),

@@ -11,7 +11,7 @@ import { withPageWrapper } from "../../../lib/pageWrapper";
 import {
   zPasswordsMustBeTheSame,
   zStringRequired,
-} from "@cookipedia/shared/src/zod";
+} from "@cookipedia/shared/zod";
 
 export const SignUpPage = withPageWrapper({
   redirectAuthorized: true,

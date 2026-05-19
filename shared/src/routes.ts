@@ -1,4 +1,4 @@
-import { pgr } from "../utils/pumpGetRoute";
+import { pgr } from "./utils/pumpGetRoute.js";
 
 export const getSignUpRoute = pgr(() => "/sign-up");
 

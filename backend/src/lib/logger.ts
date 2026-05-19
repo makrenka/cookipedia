@@ -8,6 +8,9 @@ import { MESSAGE } from "triple-beam";
 import * as yaml from "yaml";
 import debug from "debug";
 import { deepMap } from "../utils/deepMap";
+import { ExpectedError } from "./error";
+import { TRPCError } from "@trpc/server";
+import { sentryCaptureException } from "./sentry";
 
 export const winstonLogger = winston.createLogger({
   level: "debug",
@@ -97,6 +100,13 @@ export const logger = {
   },
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   error: (logType: string, error: any, meta?: LoggerMetaData) => {
+    const isNativeExpectedError = error instanceof ExpectedError;
+    const isTrpcExpectedError =
+      error instanceof TRPCError && error.cause instanceof ExpectedError;
+    const prettifiedMetaData = prettifyMeta(meta);
+    if (!isNativeExpectedError && !isTrpcExpectedError) {
+      sentryCaptureException(error, prettifiedMetaData);
+    }
     if (!debug.enabled(`cookipedia:${logType}`)) {
       return;
     }

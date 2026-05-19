@@ -1,5 +1,8 @@
 import { format } from "date-fns/format";
-import { getEditRecipeRoute, getViewRecipeRoute } from "../../../lib/routes";
+import {
+  getEditRecipeRoute,
+  getViewRecipeRoute,
+} from "@cookipedia/shared/routes";
 import css from "./index.module.scss";
 import { Segment } from "../../../components/Segment";
 import { trpc } from "../../../lib/trpc";
