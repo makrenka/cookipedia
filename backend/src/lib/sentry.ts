@@ -1,6 +1,7 @@
 import * as Sentry from "@sentry/node";
 import { env } from "./env";
 import { type LoggerMetaData } from "./logger";
+import path from "path";
 
 if (env.BACKEND_SENTRY_DSN) {
   Sentry.init({
@@ -8,6 +9,11 @@ if (env.BACKEND_SENTRY_DSN) {
     environment: env.HOST_ENV,
     release: env.SOURCE_VERSION,
     normalizeDepth: 10,
+    integrations: [
+      Sentry.rewriteFramesIntegration({
+        root: path.resolve(__dirname, "../../.."),
+      }),
+    ],
   });
 }
 

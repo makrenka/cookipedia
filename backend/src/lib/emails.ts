@@ -6,7 +6,7 @@ import Handlebars from "handlebars";
 import {
   getNewRecipeRoute,
   getViewRecipeRoute,
-} from "@cookipedia/shared/routes"; // todo: imports like @cookipedia/webapp/src/lib/routes
+} from "@cookipedia/shared/routes";
 import { env } from "./env";
 import { type Recipe, type User } from "@prisma/client";
 // import { sendEmailThroughBrevo } from "./brevo";
