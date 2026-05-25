@@ -4,6 +4,7 @@
   "version": "0.0.0",
   "scripts": {
     "dev": "ts-node-dev -r tsconfig-paths/register --watch ./src/emails/dist,./.env --rs --exit-child ./src/index.ts",
+    "test": "jest",
     "build-emails": "ts-node src/scripts/build-emails.ts",
     "copy-emails": "copyfiles ./src/emails/dist/*.html ./dist/backend",
     "build-ts": "rimraf ./dist && tsc --build ./tsconfig.json",

@@ -2,7 +2,8 @@
     "extends": "../backend/tsconfig.json",
     "include": ["src"],
     "compilerOptions": {
-        "types": ["node"],
+        "isolatedModules": true,
+        "types": ["node", "jest"],
         "target": "ES2022",
         "module": "NodeNext",
         "moduleResolution": "NodeNext",
