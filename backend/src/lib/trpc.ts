@@ -9,12 +9,21 @@ import { type ExpressRequest } from "../utils/types";
 import { logger } from "./logger";
 import { ExpectedError } from "./error";
 
+export const getTrpcContext = ({
+  appContext,
+  req,
+}: {
+  appContext: AppContext;
+  req: ExpressRequest;
+}) => ({
+  ...appContext,
+  me: req.user || null,
+});
+
 const getCreateTrpcContext =
   (appContext: AppContext) =>
-  ({ req }: trpcExpress.CreateExpressContextOptions) => ({
-    ...appContext,
-    me: (req as ExpressRequest).user || null,
-  });
+  ({ req }: trpcExpress.CreateExpressContextOptions) =>
+    getTrpcContext({ appContext, req: req as ExpressRequest });
 
 type TrpcContext = Awaited<ReturnType<typeof getCreateTrpcContext>>;
 

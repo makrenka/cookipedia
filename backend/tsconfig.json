@@ -23,11 +23,11 @@
     "sourceMap": true,
     "sourceRoot": "/",
     "resolveJsonModule": true,
-    "inlineSources": true,
-    "isolatedModules": false,
+    "inlineSources": true,    
     "lib": ["ES2022"],
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
+    "isolatedModules": true,
     "target": "ES2022",
     "types": ["node", "jest"]
   },

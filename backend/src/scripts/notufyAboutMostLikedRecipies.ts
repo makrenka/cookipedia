@@ -1,9 +1,17 @@
-import { type Recipe } from "@prisma/client";
+import { Prisma, type Recipe } from "@prisma/client";
 import { AppContext } from "../lib/ctx";
 import { sendMostLikedRecipiesEmail } from "../lib/emails";
 
-export const notufyAboutMostLikedRecipies = async (ctx: AppContext) => {
-  const mostLikedRecipies = await ctx.prisma.$queryRaw<
+export const getMostLikedRecipies = async (
+  ctx: AppContext,
+  limit: number = 10,
+  now?: Date,
+) => {
+  const sqlNow = now
+    ? Prisma.sql`${now.toISOString()}::timestamp`
+    : Prisma.sql`now()`;
+
+  return await ctx.prisma.$queryRaw<
     Array<
       Pick<Recipe, "id" | "nick" | "name"> & { thisMonthLikesCount: number }
     >
@@ -12,15 +20,19 @@ export const notufyAboutMostLikedRecipies = async (ctx: AppContext) => {
                 select count(*)::int
                 from "RecipeLike" rl 
                 where rl."recipeId" = r.id 
-                    and rl."createdAt" > now() - interval '1 month'
+                    and rl."createdAt" > ${sqlNow} - interval '1 month'
             ) as "thisMonthLikesCount" from "Recipe" r
             where r."blockedAt" is null
             order by "thisMonthLikesCount" desc 
-            limit 10
+            limit ${limit}
         )
         select * from "topRecipies"
         where "thisMonthLikesCount" > 0
     `;
+};
+
+export const notufyAboutMostLikedRecipies = async (ctx: AppContext) => {
+  const mostLikedRecipies = await getMostLikedRecipies(ctx);
 
   if (!mostLikedRecipies.length) {
     return;
