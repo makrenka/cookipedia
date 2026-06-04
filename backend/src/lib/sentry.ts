@@ -3,7 +3,9 @@ import { env } from "./env";
 import { type LoggerMetaData } from "./logger";
 import path from "path";
 
-if (env.BACKEND_SENTRY_DSN) {
+const isSentryEnabled = env.BACKEND_SENTRY_DSN && env.NODE_ENV !== "test";
+
+if (isSentryEnabled) {
   Sentry.init({
     dsn: env.BACKEND_SENTRY_DSN,
     environment: env.HOST_ENV,
@@ -21,7 +23,7 @@ export const sentryCaptureException = (
   error: Error,
   prettifiedMetaData?: LoggerMetaData,
 ) => {
-  if (env.BACKEND_SENTRY_DSN) {
+  if (isSentryEnabled) {
     Sentry.captureException(error, prettifiedMetaData);
   }
 };

@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "type": "commonjs",
   "scripts": {
-    "dev": "tsx watch --env-file=.env ./src/index.ts",
+    "dev": "cross-env NODE_ENV=development tsx watch --env-file=.env ./src/index.ts",
     "test": "pnpm exec jest --config ./jest.config.cjs",
     "build-emails": "ts-node src/scripts/build-emails.ts",
     "copy-emails": "copyfiles ./src/emails/dist/*.html ./dist/backend",
@@ -13,10 +13,11 @@
     "sentry-release": "dotenv -- cross-env-shell \"sentry-cli releases new $SOURCE_VERSION --finalize --org cookipedia --project backend\"",
     "sentry-sourcemaps": "cross-env SENTRY_LOG_LEVEL=debug sentry-cli sourcemaps upload ./dist --release=%SOURCE_VERSION% --org cookipedia --project backend",
     "sentry": "pnpm sentry-release && pnpm sentry-sourcemaps",
-    "start": "node ./dist/backend/src/index.js",
+    "start": "cross-env NODE_ENV=production node ./dist/backend/src/index.js",
     "lint": "eslint --cache --cache-location ./node_modules/.cache/.eslintcache --ext .ts .",
     "types": "tsc --noEmit --project ./tsconfig.json",
     "pmd": "prisma migrate dev",
+    "pmt": "dotenv -e ./.env.test prisma migrate deploy",
     "psc": "prisma generate",
     "prepare": "pnpm psc && ts-patch install -s"
   },
